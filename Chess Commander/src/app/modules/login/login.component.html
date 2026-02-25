@@ -1,0 +1,102 @@
+<div class="login-container" [class.success]="loginState === 'success'">
+  <div class="overlay"></div>
+  
+  <!-- Content based on state -->
+  <div class="login-content-wrapper" [ngClass]="loginState">
+    
+    <!-- Landing Page View -->
+    <ng-container *ngIf="loginState === 'landing'">
+      <header class="login-header">
+        <div class="logo">
+          <span class="logo-text">{{ logoTitle }}</span>
+        </div>
+        <div class="header-actions">
+          <button class="login-button landing" (click)="onLogin()">Login</button>
+        </div>
+      </header>
+
+      <main class="login-hero">
+        <div class="hero-section">
+          <h1 class="hero-title">Master the Board</h1>
+          <p class="hero-subtitle">Experience Chess like never before with Chess Commander.</p>
+        </div>
+      </main>
+    </ng-container>
+
+    <!-- Login Form View -->
+    <ng-container *ngIf="loginState === 'form'">
+      <div class="form-wrapper">
+        <header class="form-header">
+          <div class="central-logo">
+            <div class="logo-icon">
+              <img src="../../../assets/pieces/ChatGPT Image Feb 25, 2026, 11_34_31 AM.png" alt="Logo" class="central-logo-img">
+            </div>
+            <h2 class="form-logo-text">{{ logoTitle }}</h2>
+          </div>
+        </header>
+
+        <main class="form-main">
+          <div class="login-card">
+            <h1 class="card-title">ชื่อผู้เล่นที่เดิมพันด้วยชีวิต</h1>
+            <p class="card-subtitle">การตัดสินใจของคุณจะเป็นตัวกำหนดโชคชะตาในกระดานนี้</p>
+            
+            <div class="input-group">
+              <label class="input-label">
+                <span class="user-icon">👤</span> ชื่อผู้เล่น
+              </label>
+              <input type="text" [(ngModel)]="playerName" placeholder="กรอกชื่อของคุณ..." class="player-input">
+            </div>
+
+            <button class="action-button primary transition-btn" (click)="onEnterBet()">
+              เข้าสู่การเดิมพัน <span class="arrow">→</span>
+            </button>
+            <button class="action-button secondary" (click)="onBack()">
+              <span class="arrow">←</span> กลับ
+            </button>
+
+            <div class="loader-dots">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </main>
+      </div>
+    </ng-container>
+
+    <!-- Password Board View -->
+    <ng-container *ngIf="loginState === 'password'">
+      <div class="password-wrapper">
+        <div class="board-container">
+          <div class="chess-board">
+            <div *ngFor="let row of passwordBoard; let x = index" class="board-row">
+              <div *ngFor="let piece of row; let y = index" 
+                   class="square" 
+                   [class.dark]="isSquareDark(x, y)"
+                   [class.selected]="selectedSquare?.x === x && selectedSquare?.y === y"
+                   (click)="onSquareClick(x, y)">
+                <img *ngIf="piece" [src]="getPieceImage(piece)" class="board-piece" [class.glow]="piece">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="password-indicator">
+          <div class="dots-container">
+            <span *ngFor="let dot of passwordDots" class="dot" [class.active]="dot"></span>
+          </div>
+          <p class="security-text">
+            <span class="shield-icon">🛡️</span> ระบบความปลอดภัยเข้ารหัสแบบ Chess-Sequence 256-bit
+          </p>
+        </div>
+      </div>
+    </ng-container>
+
+    <footer class="login-footer" *ngIf="loginState !== 'landing'">
+      <p>© 2026 CHESS COMMANDER COMPETITIVE DIVISION</p>
+    </footer>
+  </div>
+
+  <!-- Burning Paper Effect Overlay -->
+  <div class="burn-overlay" *ngIf="isBurning">
+    <div class="burn-hole"></div>
+  </div>
+</div>
