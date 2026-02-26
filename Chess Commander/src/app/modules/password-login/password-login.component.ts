@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FENChar, pieceImagePaths } from '../../chess-logic/models';
+import { FENConverter } from '../../chess-logic/FENConverter';
 
 @Component({
   selector: 'app-password-login',
@@ -25,18 +26,12 @@ export class PasswordLoginComponent {
     this.initializePasswordBoard();
   }
 
+  private fenConverter = new FENConverter();
+
   private initializePasswordBoard() {
-    // FEN: 8/1N2N3/2r5/3qp2R/QP2kp1K/5R2/6B1/6B1
-    this.passwordBoard = [
-      [null, null, null, null, null, null, FENChar.WhiteBishop, null], // Rank 1
-      [null, null, null, null, null, null, FENChar.WhiteBishop, null], // Rank 2
-      [null, null, null, null, null, FENChar.WhiteRook, null, null],   // Rank 3
-      [FENChar.WhiteQueen, FENChar.WhitePawn, null, null, FENChar.BlackKing, FENChar.BlackPawn, null, FENChar.WhiteKing], // Rank 4
-      [null, null, null, FENChar.BlackQueen, FENChar.BlackPawn, null, null, FENChar.WhiteRook], // Rank 5
-      [null, null, FENChar.BlackRook, null, null, null, null, null],   // Rank 6
-      [null, FENChar.WhiteKnight, null, null, FENChar.WhiteKnight, null, null, null], // Rank 7
-      [null, null, null, null, null, null, null, null],               // Rank 8
-    ];
+    // Example FEN from user
+    const fen = "r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4";
+    this.passwordBoard = this.fenConverter.convertFENToSimpleBoard(fen);
   }
 
   onSquareClick(x: number, y: number) {

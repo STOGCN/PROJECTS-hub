@@ -1,8 +1,11 @@
 import { columns } from "../modules/chess-board/models";
-import { Color, LastMove } from "./models";
+import { Color, FENChar, LastMove } from "./models";
+import { Bishop } from "./pieces/bishop";
 import { King } from "./pieces/king";
+import { Knight } from "./pieces/knight";
 import { Pawn } from "./pieces/pawn";
 import { Piece } from "./pieces/piece";
+import { Queen } from "./pieces/queen";
 import { Rook } from "./pieces/rook";
 
 export class FENConverter {
@@ -48,7 +51,67 @@ export class FENConverter {
         FEN += " " + numberOfFullMoves;
         return FEN;
     }
+    ////////////////////////////////////////////////////////////////////////////////////
 
+    public convertFENToBoard(FEN: string): (Piece | null)[][] {
+        const board: (Piece | null)[][] = Array.from({ length: 8 }, () => Array(8).fill(null));
+        const [piecesPart] = FEN.split(" ");
+        const rows = piecesPart.split("/");
+
+        for (let i = 0; i < 8; i++) {
+            const row = rows[i];
+            let colIndex = 0;
+
+            for (const char of row) {
+                if (isNaN(Number(char))) {
+                    const fenChar = char as FENChar;
+                    board[7 - i][colIndex] = this.createPiece(fenChar);
+                    colIndex++;
+                } else {
+                    colIndex += Number(char);
+                }
+            }
+        }
+
+        return board;
+    }
+
+    public convertFENToSimpleBoard(FEN: string): (FENChar | null)[][] {
+        const board: (FENChar | null)[][] = Array.from({ length: 8 }, () => Array(8).fill(null));
+        const [piecesPart] = FEN.split(" ");
+        const rows = piecesPart.split("/");
+
+        for (let i = 0; i < 8; i++) {
+            const row = rows[i];
+            let colIndex = 0;
+
+            for (const char of row) {
+                if (isNaN(Number(char))) {
+                    board[7 - i][colIndex] = char as FENChar;
+                    colIndex++;
+                } else {
+                    colIndex += Number(char);
+                }
+            }
+        }
+
+        return board;
+    }
+
+    private createPiece(fenChar: FENChar): Piece {
+        const color = fenChar === fenChar.toUpperCase() ? Color.White : Color.Black;
+
+        switch (fenChar.toLowerCase()) {
+            case "p": return new Pawn(color);
+            case "n": return new Knight(color);
+            case "b": return new Bishop(color);
+            case "r": return new Rook(color);
+            case "q": return new Queen(color);
+            case "k": return new King(color);
+            default: throw new Error(`Invalid FEN character: ${fenChar}`);
+        }
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private castlingAvailability(board: (Piece | null)[][]): string {
         const castlingPossibilities = (color: Color): string => {
             let castlingAvailability: string = "";
