@@ -10,6 +10,7 @@ import { AppRoutingModule } from './routes/app-routing.module';
 import { PlayAgainstComputerDialogComponent } from './modules/play-against-computer-dialog/play-against-computer-dialog.component';
 import { MoveListComponent } from './modules/move-list/move-list.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,

@@ -1,0 +1,36 @@
+<!-- Login Form View -->
+<div class="form-wrapper">
+  <header class="form-header">
+    <div class="central-logo">
+      <div class="logo-icon">
+        <img src="../../../assets/pieces/ChatGPT Image Feb 25, 2026, 11_34_31 AM.png" alt="Logo" class="central-logo-img">
+      </div>
+      <h2 class="form-logo-text">{{ logoTitle }}</h2>
+    </div>
+  </header>
+
+  <main class="form-main">
+    <div class="login-card">
+      <h1 class="card-title">ชื่อผู้เล่นที่เดิมพันด้วยชีวิต</h1>
+      <p class="card-subtitle">การตัดสินใจของคุณจะเป็นตัวกำหนดโชคชะตาในกระดานนี้</p>
+      
+      <div class="input-group">
+        <label class="input-label">
+          <span class="user-icon">👤</span> ชื่อผู้เล่น
+        </label>
+        <input type="text" [(ngModel)]="playerName" placeholder="กรอกชื่อของคุณ..." class="player-input">
+      </div>
+
+      <button class="action-button primary transition-btn" (click)="onEnterBet()">
+        เข้าสู่การเดิมพัน <span class="arrow">→</span>
+      </button>
+      <button class="action-button secondary" (click)="onBack()">
+        <span class="arrow">←</span> กลับ
+      </button>
+
+      <div class="loader-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </main>
+</div>
