@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { FENChar, pieceImagePaths, Coords, Color } from '../../chess-logic/models';
 import { ChessBoard } from '../../chess-logic/chess-board';
 import { FENConverter } from '../../chess-logic/FENConverter';
+import { Pawn } from '../../chess-logic/pieces/pawn';
+import { Rook } from '../../chess-logic/pieces/rook';
+import { King } from '../../chess-logic/pieces/king';
 
 @Component({
   selector: 'app-password-login',
@@ -29,11 +32,12 @@ export class PasswordLoginComponent {
     { prev: { x: 5, y: 5 }, curr: { x: 3, y: 4 } }
   ];
 
-  public currentMoveIndex = 0;
+  public userEnteredMoves: Array<{ prev: Coords, curr: Coords }> = [];
   public chessBoardView: (FENChar | null)[][] = [];
   public selectedSquare: Coords | null = null;
   public pieceSafeSquares: Coords[] = [];
   public isBurning = false;
+  public isError = false;
   public pieceImagePaths = pieceImagePaths;
 
   constructor() {
@@ -45,6 +49,8 @@ export class PasswordLoginComponent {
     const fen = "r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4";
     this.chessBoardView = this.fenConverter.convertFENToSimpleBoard(fen);
     this.manualSyncChessBoard(fen);
+    this.userEnteredMoves = [];
+    this.isError = false;
   }
 
   private manualSyncChessBoard(fen: string) {
@@ -52,6 +58,45 @@ export class PasswordLoginComponent {
     const pieceBoard = this.fenConverter.convertFENToBoard(fen);
     (this.chessBoard as any).chessBoard = pieceBoard;
     (this.chessBoard as any)._playerColor = Color.White; // Reset start color
+
+    // Sync hasMoved state for pieces based on their positions
+    for (let x = 0; x < 8; x++) {
+      for (let y = 0; y < 8; y++) {
+        const piece = pieceBoard[x][y];
+        if (!piece) continue;
+
+        // Pawns: White home is rank 1, Black home is rank 6
+        if (piece instanceof Pawn) {
+          if ((piece.color === Color.White && x !== 1) ||
+            (piece.color === Color.Black && x !== 6)) {
+            (piece as any).hasMoved = true;
+          }
+        }
+        // Rooks: White home (0,0),(0,7), Black home (7,0),(7,7)
+        else if (piece instanceof Rook) {
+          if ((piece.color === Color.White && (x !== 0 || (y !== 0 && y !== 7))) ||
+            (piece.color === Color.Black && (x !== 7 || (y !== 0 && y !== 7)))) {
+            (piece as any).hasMoved = true;
+          }
+        }
+        // King: White home (0,4), Black home (7,4)
+        else if (piece instanceof King) {
+          if ((piece.color === Color.White && (x !== 0 || y !== 4)) ||
+            (piece.color === Color.Black && (x !== 7 || y !== 4))) {
+            (piece as any).hasMoved = true;
+          }
+        }
+      }
+    }
+
+    // Reset game state flags
+    (this.chessBoard as any)._isGameOver = false;
+    (this.chessBoard as any)._gameOverMessage = undefined;
+    (this.chessBoard as any)._lastMove = undefined;
+    (this.chessBoard as any)._checkState = { isInCheck: false };
+    (this.chessBoard as any).fiftyMoveRuleCounter = 0;
+    (this.chessBoard as any).threeFoldRepetitionDictionary = new Map<string, number>();
+    (this.chessBoard as any).threeFoldRepetitionFlag = false;
 
     // Recalculate safe squares for the new board configuration
     (this.chessBoard as any)._safeSquares = (this.chessBoard as any).findSafeSqures();
@@ -81,11 +126,11 @@ export class PasswordLoginComponent {
   }
 
   public onSquareClick(x: number, y: number) {
-    if (this.isBurning) return;
+    if (this.isBurning || this.isError) return;
 
     if (this.selectedSquare) {
       if (this.isSquareSafeForSelectedPiece(x, y)) {
-        this.verifyAndMove(this.selectedSquare.x, this.selectedSquare.y, x, y);
+        this.recordMove(this.selectedSquare.x, this.selectedSquare.y, x, y);
       } else {
         this.selectingPiece(x, y);
       }
@@ -105,41 +150,57 @@ export class PasswordLoginComponent {
     this.updateLocalView();
   }
 
-  private verifyAndMove(prevX: number, prevY: number, newX: number, newY: number) {
-    const targetMove = this.passwordSequence[this.currentMoveIndex];
-
-    // Perform move in ChessBoard to maintain rules
+  private recordMove(prevX: number, prevY: number, newX: number, newY: number) {
     try {
       // Force turn to piece color so move can execute
       const piece = (this.chessBoard as any).chessBoard[prevX][prevY];
       if (piece) {
         (this.chessBoard as any)._playerColor = piece.color;
-        // MUST recalculate safe squares for the newly forced side
         (this.chessBoard as any)._safeSquares = (this.chessBoard as any).findSafeSqures();
       }
 
       this.chessBoard.move(prevX, prevY, newX, newY, null);
 
-      // Check if this move matches the password sequence
-      if (prevX === targetMove.prev.x && prevY === targetMove.prev.y &&
-        newX === targetMove.curr.x && newY === targetMove.curr.y) {
-        this.currentMoveIndex++;
+      // Record any valid move
+      this.userEnteredMoves.push({
+        prev: { x: prevX, y: prevY },
+        curr: { x: newX, y: newY }
+      });
 
-        if (this.currentMoveIndex === this.passwordSequence.length) {
-          this.triggerSuccess();
-        }
-      } else {
-        // Wrong move in sequence - reset
-        console.log("Wrong move in sequence! Resetting...");
-        this.currentMoveIndex = 0;
-        this.initializePasswordBoard();
+      if (this.userEnteredMoves.length === this.passwordSequence.length) {
+        this.validateSequence();
       }
     } catch (e) {
-      console.error("Illegal move according to chess rules:", e);
+      console.error("Illegal move:", e);
     }
 
     this.selectedSquare = null;
     this.updateLocalView();
+  }
+
+  private validateSequence() {
+    const isCorrect = this.userEnteredMoves.every((move, index) => {
+      const target = this.passwordSequence[index];
+      return move.prev.x === target.prev.x &&
+        move.prev.y === target.prev.y &&
+        move.curr.x === target.curr.x &&
+        move.curr.y === target.curr.y;
+    });
+
+    if (isCorrect) {
+      this.triggerSuccess();
+    } else {
+      this.triggerFailure();
+    }
+  }
+
+  private triggerFailure() {
+    this.isError = true;
+    console.log("Password entry incorrect.");
+    // Wait a bit before resetting so user can see they finished the moves
+    setTimeout(() => {
+      this.initializePasswordBoard();
+    }, 1500);
   }
 
   private triggerSuccess() {
