@@ -250,6 +250,7 @@ export class ChessBoard {
         if (
             !(piece instanceof Pawn) ||
             pawn.color !== this._playerColor ||
+            piece.color === pawn.color ||
             Math.abs(currX - prevX) !== 2 ||
             pawnX !== currX ||
             Math.abs(pawnY - currY) !== 1
@@ -361,6 +362,7 @@ export class ChessBoard {
             piece instanceof Pawn &&
             this._lastMove &&
             this._lastMove.piece instanceof Pawn &&
+            this._lastMove.piece.color !== piece.color &&
             Math.abs(this._lastMove.currX - this._lastMove.prevX) === 2 &&
             prevX === this._lastMove.currX &&
             newY === this._lastMove.currY
