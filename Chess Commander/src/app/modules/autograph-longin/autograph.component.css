@@ -9,10 +9,18 @@
     animation: fadeIn 0.6s ease-out;
 }
 
+.central-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
 .logo-icon {
     width: 80px;
     height: 80px;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
     border-radius: 12px;
     overflow: hidden;
@@ -29,7 +37,7 @@
     font-weight: 800;
     letter-spacing: 0.2rem;
     text-transform: uppercase;
-    margin-bottom: 2rem;
+    margin-bottom: 0;
 }
 
 .login-card {
@@ -134,8 +142,32 @@
 .loader-dots span {
     width: 8px;
     height: 8px;
-    background: rgba(255, 255, 255, 0.2);
+    background: #3b82f6;
     border-radius: 50%;
+    animation: loaderPulse 1.4s infinite ease-in-out both;
+}
+
+.loader-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loader-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes loaderPulse {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+        opacity: 0.3;
+    }
+
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes fadeIn {
