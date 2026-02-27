@@ -22,23 +22,18 @@ export class PasswordLoginComponent {
   private fenConverter = new FENConverter();
   private chessBoard = new ChessBoard();
 
-  // Password moves sequence (prevX, prevY -> nextX, nextY)
-  // Nf3 (2,5) -> e5 (4,4)
-  // nc6 (5,2) -> e5 (4,4)
-  // nf6 (5,5) -> e4 (3,4)
-  public passwordSequence = [
-    { prev: { x: 2, y: 5 }, curr: { x: 4, y: 4 } },
-    { prev: { x: 5, y: 2 }, curr: { x: 4, y: 4 } },
-    { prev: { x: 5, y: 5 }, curr: { x: 3, y: 4 } }
-  ];
+  // Password moves sequence in UCI notation (e.g., "g1f3")
+  public passwordSequence = ["f3e5", "c6e5", "f6e4"];
 
-  public userEnteredMoves: Array<{ prev: Coords, curr: Coords }> = [];
+  public userEnteredMoves: string[] = [];
   public chessBoardView: (FENChar | null)[][] = [];
   public selectedSquare: Coords | null = null;
   public pieceSafeSquares: Coords[] = [];
   public isBurning = false;
   public isError = false;
   public pieceImagePaths = pieceImagePaths;
+
+  private columns = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
   constructor() {
     this.initializePasswordBoard();
@@ -150,6 +145,12 @@ export class PasswordLoginComponent {
     this.updateLocalView();
   }
 
+  private convertToUCI(prevX: number, prevY: number, newX: number, newY: number): string {
+    const from = this.columns[prevY] + (prevX + 1);
+    const to = this.columns[newY] + (newX + 1);
+    return from + to;
+  }
+
   private recordMove(prevX: number, prevY: number, newX: number, newY: number) {
     try {
       // Force turn to piece color so move can execute
@@ -161,11 +162,9 @@ export class PasswordLoginComponent {
 
       this.chessBoard.move(prevX, prevY, newX, newY, null);
 
-      // Record any valid move
-      this.userEnteredMoves.push({
-        prev: { x: prevX, y: prevY },
-        curr: { x: newX, y: newY }
-      });
+      // Record move in UCI format
+      const uciMove = this.convertToUCI(prevX, prevY, newX, newY);
+      this.userEnteredMoves.push(uciMove);
 
       if (this.userEnteredMoves.length === this.passwordSequence.length) {
         this.validateSequence();
@@ -180,11 +179,7 @@ export class PasswordLoginComponent {
 
   private validateSequence() {
     const isCorrect = this.userEnteredMoves.every((move, index) => {
-      const target = this.passwordSequence[index];
-      return move.prev.x === target.prev.x &&
-        move.prev.y === target.prev.y &&
-        move.curr.x === target.curr.x &&
-        move.curr.y === target.curr.y;
+      return move === this.passwordSequence[index];
     });
 
     if (isCorrect) {
