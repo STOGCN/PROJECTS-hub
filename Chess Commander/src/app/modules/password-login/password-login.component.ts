@@ -22,8 +22,8 @@ export class PasswordLoginComponent {
   private fenConverter = new FENConverter();
   private chessBoard = new ChessBoard();
 
-  // Password moves sequence in UCI notation (e.g., "g1f3")
-  public passwordSequence = ["f3e5", "c6e5", "f6e4"];
+  // Password moves sequence with piece prefix (e.g., "N:f3e5")
+  public passwordSequence = ["N:f3e5", "n:c6e5", "n:f6e4"];
 
   public userEnteredMoves: string[] = [];
   public chessBoardView: (FENChar | null)[][] = [];
@@ -145,10 +145,10 @@ export class PasswordLoginComponent {
     this.updateLocalView();
   }
 
-  private convertToUCI(prevX: number, prevY: number, newX: number, newY: number): string {
+  private convertToUCI(piece: FENChar, prevX: number, prevY: number, newX: number, newY: number): string {
     const from = this.columns[prevY] + (prevX + 1);
     const to = this.columns[newY] + (newX + 1);
-    return from + to;
+    return `${piece}:${from}${to}`;
   }
 
   private recordMove(prevX: number, prevY: number, newX: number, newY: number) {
@@ -162,8 +162,8 @@ export class PasswordLoginComponent {
 
       this.chessBoard.move(prevX, prevY, newX, newY, null);
 
-      // Record move in UCI format
-      const uciMove = this.convertToUCI(prevX, prevY, newX, newY);
+      // Record move with piece prefix (e.g., "N:f3e5")
+      const uciMove = this.convertToUCI(piece.FENChar, prevX, prevY, newX, newY);
       this.userEnteredMoves.push(uciMove);
 
       if (this.userEnteredMoves.length === this.passwordSequence.length) {
