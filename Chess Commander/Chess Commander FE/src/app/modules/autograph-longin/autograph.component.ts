@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-autograph-longin',
@@ -16,6 +17,8 @@ export class AutographComponent {
   logoTitle = 'Chess Commander';
   playerName = '';
 
+  constructor(private router: Router) { }
+
   onEnterBet() {
     this.enterBet.emit(this.playerName);
     console.log('Entering bet with player:', this.playerName);
@@ -23,6 +26,10 @@ export class AutographComponent {
 
   onBack() {
     this.back.emit();
+  }
+
+  onNewPlayer() {
+    this.router.navigate(['/register']);
   }
 }
 

@@ -1,0 +1,49 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres-ChessCommander
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: n8n
+      POSTGRES_PASSWORD: secret123
+      POSTGRES_DB: n8n
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  postgres_mine: # ← เพิ่มตรงนี้
+    image: postgres:16
+    container_name: my-personal-postgres
+    restart: unless-stopped
+    ports:
+      - "5433:5432"                     # ← ต้องเปลี่ยน port ห้ามซ้ำกัน!
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    volumes:
+      - postgres_mine_data:/var/lib/postgresql/data
+      - .\src\main\resources:/docker-entrypoint-initdb.d
+
+  n8n:
+    image: n8nio/n8n
+    container_name: n8n-ChessCommander
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_DATABASE=n8n
+      - DB_POSTGRESDB_USER=n8n
+      - DB_POSTGRESDB_PASSWORD=secret123
+    depends_on:
+      - postgres
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  postgres_data:
+  postgres_mine_data:                   # ← เพิ่มตรงนี้ด้วย
+  n8n_data:

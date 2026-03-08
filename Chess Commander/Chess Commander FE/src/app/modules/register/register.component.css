@@ -1,0 +1,308 @@
+.registration-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    position: relative;
+    background: url('../../../assets/pieces/ChatGPT Image Mar 5, 2026, 01_40_44 PM.png') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    overflow-y: auto;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.registration-card {
+    position: relative;
+    z-index: 2;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 1000px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.registration-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5rem 2.5rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.logo-container {
+    width: 48px;
+    height: 48px;
+    background: #2563eb;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+}
+
+.logo-icon {
+    width: 100%;
+    height: 100%;
+    filter: brightness(0) invert(1);
+}
+
+.title-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.registration-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    margin: 0;
+    color: white;
+}
+
+.registration-subtitle {
+    color: #94a3b8;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    margin: 0;
+}
+
+.header-right {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-back {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+
+.btn-back:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-save {
+    background: #2563eb;
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+    transition: all 0.2s;
+}
+
+.btn-save:hover:not(:disabled) {
+    background: #3b82f6;
+    transform: translateY(-1px);
+}
+
+.btn-save:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.registration-form {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #3b82f6;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-title::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 1.25rem;
+    background: #3b82f6;
+    border-radius: 2px;
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.full-width {
+    grid-column: span 4;
+}
+
+.input-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.05em;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    color: white;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+    padding-right: 3rem !important;
+    cursor: pointer;
+}
+
+.form-select option {
+    background-color: #0f172a;
+    color: white;
+    padding: 1rem;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    border-color: rgba(59, 130, 246, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.form-textarea {
+    resize: none;
+    min-height: 100px;
+}
+
+.form-textarea.mini {
+    min-height: 80px;
+}
+
+.reflection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.question-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.question-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #cbd5e1;
+}
+
+.registration-footer {
+    padding: 1.5rem;
+    background: rgba(15, 23, 42, 0.3);
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-text {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #3b82f6;
+    letter-spacing: 0.1em;
+    margin: 0;
+}
+
+@media (max-width: 850px) {
+    .input-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .age-group,
+    .gender-group {
+        grid-column: span 1;
+    }
+
+    .full-width {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 600px) {
+    .registration-header {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: flex-start;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .input-grid,
+    .reflection-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: span 1;
+    }
+}
