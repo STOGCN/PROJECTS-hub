@@ -1,0 +1,43 @@
+.dashboard-root {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuCHr9D0Nq1E7_K4fS6mE_oY1k-Gf_eY8V-X7Y9u-z-E1m_G_H_e_f_V_V_V');
+    background-size: cover;
+    background-position: center;
+}
+
+.dashboard-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 1rem;
+}
+
+.bg-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(150px);
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.blue-glow {
+    top: 10%;
+    left: -200px;
+    background: var(--primary-blue);
+}
+
+.red-glow {
+    bottom: 10%;
+    right: -200px;
+    background: var(--status-critical);
+}

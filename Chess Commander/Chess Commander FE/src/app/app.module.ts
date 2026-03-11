@@ -11,6 +11,11 @@ import { PlayAgainstComputerDialogComponent } from './modules/play-against-compu
 import { MoveListComponent } from './modules/move-list/move-list.component';
 import { RegisterComponent } from './modules/register/register.component';
 import { RegisterPasswordComponent } from './modules/register-password/register-password.component';
+import { HeaderComponent } from './modules/dashboard/header/header.component';
+import { LifeTimerComponent } from './modules/dashboard/life-timer/life-timer.component';
+import { FooterComponent } from './modules/dashboard/footer/footer.component';
+import { GameCarouselComponent } from './modules/dashboard/game-carousel/game-carousel.component';
+import { DashboardComponent } from './modules/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -18,6 +23,11 @@ import { RegisterPasswordComponent } from './modules/register-password/register-
     AppComponent,
     ChessBoardComponent,
     ComputerModeComponent,
+    HeaderComponent,
+    LifeTimerComponent,
+    FooterComponent,
+    GameCarouselComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

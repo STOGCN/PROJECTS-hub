@@ -1,0 +1,48 @@
+.timer-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+    z-index: 10;
+}
+
+.timer-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: var(--status-critical);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(244, 67, 54, 0.4);
+}
+
+.timer-display {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    color: white;
+}
+
+.time-main {
+    font-size: 4rem;
+    letter-spacing: -2px;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+.time-ms {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    .time-main {
+        font-size: 3rem;
+    }
+
+    .time-ms {
+        font-size: 1rem;
+    }
+}

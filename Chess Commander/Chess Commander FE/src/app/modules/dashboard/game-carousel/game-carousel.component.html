@@ -1,0 +1,63 @@
+<div class="carousel-container">
+  <!-- Side Card Left -->
+  <div class="side-card left-card">
+    <div class="card-image preview-1"></div>
+    <div class="card-overlay">
+      <span class="material-symbols-outlined lock-icon">lock</span>
+      <h3 class="mission-title">LOST HERITAGE</h3>
+      <div class="mission-timer">:04:12.822</div>
+    </div>
+  </div>
+
+  <!-- Active Card -->
+  <div class="active-card glass-panel">
+    <div class="card-header">
+      <div class="game-clock-container">
+        <span class="label">GAME CLOCK</span>
+        <div class="clock-display">
+          <span class="main">:59:42</span><span class="ms">.159</span>
+        </div>
+      </div>
+      <div class="critical-badge">
+        <span class="pulse-dot"></span>
+        <span>CRITICAL</span>
+      </div>
+    </div>
+
+    <div class="chessboard-container">
+      <div class="chess-board">
+        <!-- 8x8 Grid -->
+        <div class="grid-layer">
+          <div *ngFor="let i of squares" class="square"></div>
+        </div>
+        <!-- Pieces Layer -->
+        <div class="pieces-layer">
+          <span class="material-symbols-outlined piece piece-pawn" style="grid-column: 2; grid-row: 3;">pawn</span>
+          <span class="material-symbols-outlined piece piece-knight" style="grid-column: 5; grid-row: 5;">knight</span>
+          <span class="material-symbols-outlined piece piece-bed" style="grid-column: 7; grid-row: 7;">king_bed</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <div class="footer-left">
+        <span class="footer-label">STAKE OBJECT</span>
+        <h3 class="stake-title">อิสรภาพ สุดท้าย: อิสรภาพ</h3>
+      </div>
+      <div class="footer-right">
+        <span class="footer-label">GAME #8412</span>
+        <span class="turn-indicator">เทิร์นของคุณ</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Side Card Right -->
+  <div class="side-card right-card">
+    <div class="card-image preview-2"></div>
+    <div class="card-overlay">
+      <span class="material-symbols-outlined time-icon">schedule</span>
+      <h3 class="mission-title">SECRET NETWORK</h3>
+      <div class="mission-timer">:22:05.118</div>
+    </div>
+  </div>
+</div>

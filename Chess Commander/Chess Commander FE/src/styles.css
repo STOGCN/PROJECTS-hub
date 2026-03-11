@@ -1,19 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+    --bg-dark: #0a1118;
+    --bg-accent: #111b27;
+    --primary-blue: #2196f3;
+    --primary-glow: rgba(33, 150, 243, 0.4);
+    --text-main: #e0e0e0;
+    --text-muted: #8a9ba8;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --status-online: #4caf50;
+    --status-critical: #f44336;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html,
-body {
-    height: 100%;
-    background-color: black;
-}
-
 body {
     margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    overflow: hidden;
+    height: 100vh;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

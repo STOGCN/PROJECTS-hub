@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AutographComponent } from '../autograph-longin/autograph.component';
@@ -18,7 +19,7 @@ export class LoginComponent {
     // States: 'landing', 'form', 'password', 'success'
     loginState: 'landing' | 'form' | 'password' | 'success' = 'landing';
 
-    constructor() { }
+    constructor(private router: Router) { }
 
     onLogin() {
         this.loginState = 'form';
@@ -40,5 +41,8 @@ export class LoginComponent {
     handleSuccess() {
         this.loginState = 'success';
         console.log('Flow Complete: Success!');
+        setTimeout(() => {
+            this.router.navigate(['/dashboard']);
+        }, 1500); // Small delay to show success state/animation
     }
 }
