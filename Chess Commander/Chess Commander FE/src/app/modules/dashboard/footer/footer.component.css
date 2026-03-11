@@ -62,6 +62,7 @@
 .play-btn:hover {
     transform: scale(1.05);
     box-shadow: 0 0 45px var(--primary-glow);
+    filter: brightness(1.2);
 }
 
 .play-btn:active {

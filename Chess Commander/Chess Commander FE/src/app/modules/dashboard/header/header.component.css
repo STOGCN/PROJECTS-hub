@@ -20,6 +20,7 @@
 .new-game-btn {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     padding: 0.6rem 1.2rem;
     background: rgba(33, 150, 243, 0.15);
@@ -37,13 +38,19 @@
 }
 
 .new-game-btn .material-symbols-outlined {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
 }
 
 .btn-text {
     font-weight: 700;
     font-size: 0.8rem;
     letter-spacing: 1px;
+    line-height: 1;
 }
 
 .divider {
@@ -192,7 +199,7 @@
 .notif-btn {
     width: 40px;
     height: 40px;
-    display: center;
+    display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.05);
@@ -201,6 +208,7 @@
     color: var(--text-main);
     cursor: pointer;
     transition: all 0.2s ease;
+    font-size: 1.1rem;
 }
 
 .notif-btn:hover {

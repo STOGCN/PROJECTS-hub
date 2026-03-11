@@ -19,22 +19,24 @@
 .timer-display {
     display: flex;
     align-items: baseline;
-    gap: 0.2rem;
+    gap: 1.5rem;
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
     color: white;
+    font-variant-numeric: tabular-nums;
+    /* Prevents shaking/vibrating during countdown */
 }
 
 .time-main {
-    font-size: 4rem;
-    letter-spacing: -2px;
+    font-size: 4.5rem;
+    letter-spacing: -1px;
     text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
 }
 
 .time-ms {
-    font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 400;
+    font-size: 2rem;
+    color: var(--status-critical);
+    font-weight: 900;
 }
 
 @media (max-width: 768px) {
