@@ -10,6 +10,7 @@ export class LifeTimerComponent implements OnInit, OnDestroy {
   private totalMs = (83219 * 3600000) + (59 * 60000) + (59 * 1000) + 999;
   private intervalId: any;
 
+  timeYMD: string = '';
   timeMain: string = '83219:59:59';
   timeMs: string = '.999';
 
@@ -50,9 +51,9 @@ export class LifeTimerComponent implements OnInit, OnDestroy {
     const months = Math.floor(remainingDaysAfterYears / 30);
     const days = remainingDaysAfterYears % 30;
 
-    // Formatting YMD if needed in future, but keeping requested main display
-    // this.timeYMD = `${years}Y / ${months}M / ${days}D`;
-
+    // Formatting YMD: e.g. "9 YEARS / 6 MONTHS / 2 DAYS"
+    this.timeYMD = `${years} YEARS / ${months} MONTHS / ${days} DAYS`;
+// this.timeYMD = `${years} Y / ${months} M / ${days} D`;
     // Formatting with padding for consistent width
     this.timeMain = `${totalHours}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     this.timeMs = `.${ms.toString().padStart(2, '0')}`;
