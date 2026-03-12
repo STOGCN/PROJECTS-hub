@@ -8,7 +8,8 @@
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--glass-border);
-    z-index: 100;
+    z-index: 500;
+    position: relative;
 }
 
 .left-section {
