@@ -24,6 +24,38 @@
         <div class="progress-bar-fill" style="width: 75%"></div>
       </div>
     </div>
+
+    <div class="case-section" [class.active]="showTaskList">
+      <div class="active-case" (click)="toggleTaskList()">
+        <div class="case-header">
+          <span class="case-label">CASE: {{ activeTask.title }}</span>
+          <span class="case-time">{{ activeTask.deadline }}</span>
+        </div>
+        <p class="case-desc">{{ activeTask.description }}</p>
+      </div>
+
+      <div class="case-dropdown glass-panel" *ngIf="showTaskList">
+        <div class="dropdown-header">
+          <h3>WORK SEQUENCE</h3>
+          <span class="task-count">{{ tasks.length }} TASKS</span>
+        </div>
+        <div class="task-list">
+          <div *ngFor="let task of tasks" 
+               class="task-item" 
+               [class.current]="task.id === activeTask.id"
+               (click)="selectTask(task)">
+            <div class="task-info">
+              <span class="task-title">{{ task.title }}</span>
+              <span class="task-deadline">{{ task.deadline }}</span>
+            </div>
+            <p class="task-description">{{ task.description }}</p>
+            <div class="task-status" [attr.data-status]="task.status">
+              {{ task.status | uppercase }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="right-section">
