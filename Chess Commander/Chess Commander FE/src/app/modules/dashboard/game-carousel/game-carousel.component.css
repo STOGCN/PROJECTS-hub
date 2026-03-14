@@ -52,9 +52,18 @@
     z-index: 1;
 }
 
+/* Hover Effects */
 .side-card:hover {
-    filter: brightness(0.8) blur(0px);
-    z-index: 10;
+    filter: brightness(0.9) blur(0px);
+    z-index: 15;
+}
+
+.left-card:hover {
+    transform: translateX(-380px) translateY(50px) translateZ(-50px) rotateY(10deg) scale(0.9);
+}
+
+.right-card:hover {
+    transform: translateX(380px) translateY(50px) translateZ(-50px) rotateY(-10deg) scale(0.9);
 }
 
 .card-image {
