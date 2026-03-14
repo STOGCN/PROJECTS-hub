@@ -85,15 +85,15 @@ export class GameCarouselComponent {
 
   getCardClass(index: number): string {
     const diff = index - this.activeIndex;
-    
+
     if (diff === 0) return 'active-card';
     if (diff === -1) return 'side-card left-card';
     if (diff === 1) return 'side-card right-card';
-    
+
     // Handle wrap-around or further distances
     if (diff < -1) return 'side-card hidden-left';
     if (diff > 1) return 'side-card hidden-right';
-    
+
     return 'side-card';
   }
 }
