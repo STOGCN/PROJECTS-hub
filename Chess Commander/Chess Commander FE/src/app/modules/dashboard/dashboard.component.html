@@ -1,4 +1,10 @@
 <div class="dashboard-root">
+  <!-- Dynamic Background Layer -->
+  <div class="dynamic-bg-layer" 
+       [style.backgroundImage]="dynamicBgStyle"
+       [class.active]="isDynamicBg && currentBgUrl">
+  </div>
+
   <!-- Background Accents -->
   <div class="bg-glow blue-glow"></div>
   <div class="bg-glow red-glow"></div>
@@ -7,8 +13,18 @@
   
   <main class="dashboard-content">
     <app-life-timer></app-life-timer>
-    <app-game-carousel></app-game-carousel>
+    <app-game-carousel (backgroundChange)="onBackgroundChange($event)"></app-game-carousel>
   </main>
 
   <app-footer></app-footer>
+
+  <!-- Bg Toggle Button -->
+  <button class="bg-toggle-btn" 
+          (click)="toggleDynamicBg()" 
+          [class.active]="isDynamicBg">
+    <span class="material-symbols-outlined">
+      {{ isDynamicBg ? 'wallpaper' : 'hide_image' }}
+    </span>
+    <span class="tooltip">Toggle Dynamic Background</span>
+  </button>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 
 interface Mission {
   id: string;
@@ -17,9 +17,15 @@ interface Mission {
   templateUrl: './game-carousel.component.html',
   styleUrls: ['./game-carousel.component.css']
 })
-export class GameCarouselComponent {
+export class GameCarouselComponent implements OnInit {
+  @Output() backgroundChange = new EventEmitter<string>();
+
   squares = Array(64).fill(0);
   activeIndex = 1;
+
+  ngOnInit() {
+    this.emitBackground();
+  }
 
   missions: Mission[] = [
     {
@@ -81,6 +87,7 @@ export class GameCarouselComponent {
 
   selectMission(index: number) {
     this.activeIndex = index;
+    this.emitBackground();
   }
 
   getCardClass(index: number): string {
@@ -95,5 +102,10 @@ export class GameCarouselComponent {
     if (diff > 1) return 'side-card hidden-right';
 
     return 'side-card';
+  }
+
+  private emitBackground() {
+    const activeMission = this.missions[this.activeIndex];
+    this.backgroundChange.emit(activeMission.imageUrl);
   }
 }
