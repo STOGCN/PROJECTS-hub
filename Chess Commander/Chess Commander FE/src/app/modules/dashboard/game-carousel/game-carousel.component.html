@@ -41,7 +41,7 @@
 
     <!-- Side/Hidden Card Internal Structure -->
     <ng-container *ngIf="i !== activeIndex">
-      <div class="card-image" [style.backgroundImage]="'url(' + mission.imageUrl + ')'"></div>
+      <div class="card-image" [style.backgroundImage]="'url(\'' + mission.imageUrl + '\')'"></div>
       <div class="card-overlay">
         <span class="material-symbols-outlined" [class.lock-icon]="mission.isLocked" [class.time-icon]="!mission.isLocked">
           {{ mission.isLocked ? 'lock' : 'schedule' }}

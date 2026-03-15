@@ -92,13 +92,13 @@
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.preview-1 {
+/* .preview-1 {
     background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBexjYCnlKD6w4xcoqyJKoJZuGCw7f0OrLQDi5LugwTX9zDfhYSy2AE9J6KHfgEgpDMwaKOxpN3EYPOoZFMtNrBZ1nv-RUC4pf_GoVijUevG9J8VTdSEjD5qRScoOB_hjbid7s0gmogvWyDLlBbyog0DYY5_jMIGgO58k45hlyOIKQvhN8r1OtBk0Ajo1EO1VAzXIKqlodtNHzuUWUqKsJU1j8xDRPNCiFzTq-_rB_SMgw5fNK8anVlDtYva2te8sGT5JTv5c8gqsY');
 }
 
 .preview-2 {
     background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDljhuM9rR-F4KH2ZOjCGBIxtJotyrgWknNxOuFSon-oteoI3bbidkipNYMY6UrwozYR61-Bh6mEfNE1OsJw0D7Fq-ppCrCo6ltngocaibn0mGOa-f89kxo0HD6bMM-zRYVvhlPyFgXtBNzy7h6IH8bDkcUQPIK83qHOBYo-rqtzbxl3W47jJ4_KKty6H2gMqyMHXQ0mdHn_adrcsO_4cUeTUosmni743TfPp9zz7l1jU-R0BqwUk-SJelUVYZXAVPKKSwctCCN00E');
-}
+} */
 
 .card-overlay {
     position: absolute;

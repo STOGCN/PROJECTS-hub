@@ -46,7 +46,7 @@ export class GameCarouselComponent implements OnInit {
       timer: ':59:42.159',
       gameClock: ':59:42.159',
       gameNumber: '8412',
-      imageUrl: '',
+      imageUrl: 'assets/pieces/ChatGPT Image Mar 12, 2026, 03_25_47 PM.png',
       isCritical: true,
       isLocked: false
     },
