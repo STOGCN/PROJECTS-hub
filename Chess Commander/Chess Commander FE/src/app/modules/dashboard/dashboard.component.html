@@ -9,7 +9,7 @@
   <div class="bg-glow blue-glow"></div>
   <div class="bg-glow red-glow"></div>
 
-  <app-header></app-header>
+  <app-header (newGameAction)="openNewGameModal()"></app-header>
   
   <main class="dashboard-content">
     <app-life-timer></app-life-timer>
@@ -25,4 +25,7 @@
     <i class="bi bi-back"></i>
     <span class="tooltip">Toggle Dynamic Background</span>
   </button>
+
+  <!-- Modals rendered at Dashboard level to escape stacking contexts -->
+  <app-new-game *ngIf="isNewGameModalOpen" (close)="closeNewGameModal()"></app-new-game>
 </div>

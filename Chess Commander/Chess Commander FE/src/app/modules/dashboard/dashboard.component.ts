@@ -8,6 +8,15 @@ import { Component } from '@angular/core';
 export class DashboardComponent {
     currentBgUrl: string = '';
     isDynamicBg: boolean = true;
+    isNewGameModalOpen: boolean = false;
+
+    openNewGameModal() {
+        this.isNewGameModalOpen = true;
+    }
+
+    closeNewGameModal() {
+        this.isNewGameModalOpen = false;
+    }
 
     onBackgroundChange(url: string) {
         this.currentBgUrl = url;

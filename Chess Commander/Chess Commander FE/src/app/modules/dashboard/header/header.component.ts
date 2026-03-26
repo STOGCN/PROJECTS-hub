@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 interface WorkTask {
   id: number;
@@ -40,6 +40,12 @@ export class HeaderComponent {
 
   activeTask = this.tasks[0];
   showTaskList = false;
+
+  @Output() newGameAction = new EventEmitter<void>();
+
+  openNewGameModal() {
+    this.newGameAction.emit();
+  }
 
   toggleTaskList() {
     this.showTaskList = !this.showTaskList;

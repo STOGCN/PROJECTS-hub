@@ -16,6 +16,8 @@ import { LifeTimerComponent } from './modules/dashboard/life-timer/life-timer.co
 import { FooterComponent } from './modules/dashboard/footer/footer.component';
 import { GameCarouselComponent } from './modules/dashboard/game-carousel/game-carousel.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { NewGameComponent } from './modules/dashboard/header/new_game/new-game.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -28,6 +30,7 @@ import { DashboardComponent } from './modules/dashboard/dashboard.component';
     FooterComponent,
     GameCarouselComponent,
     DashboardComponent,
+    NewGameComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,8 @@ import { DashboardComponent } from './modules/dashboard/dashboard.component';
     PlayAgainstComputerDialogComponent,
     MoveListComponent,
     RegisterComponent,
-    RegisterPasswordComponent
+    RegisterPasswordComponent,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
