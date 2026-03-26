@@ -19,13 +19,14 @@ interface Mission {
 })
 export class GameCarouselComponent implements OnInit {
   @Output() backgroundChange = new EventEmitter<string>();
-  @Output() centerCardHover = new EventEmitter<boolean>();
+  @Output() activeCardStatus = new EventEmitter<{ isLastCard: boolean }>();
 
   squares = Array(64).fill(0);
   activeIndex = 1;
 
   ngOnInit() {
     this.emitBackground();
+    this.emitActiveStatus();
   }
 
   missions: Mission[] = [
@@ -89,6 +90,7 @@ export class GameCarouselComponent implements OnInit {
   selectMission(index: number) {
     this.activeIndex = index;
     this.emitBackground();
+    this.emitActiveStatus();
   }
 
   getCardClass(index: number): string {
@@ -110,15 +112,8 @@ export class GameCarouselComponent implements OnInit {
     this.backgroundChange.emit(activeMission.imageUrl);
   }
 
-  onCardEnter(index: number) {
-    if (index === this.activeIndex) {
-      this.centerCardHover.emit(true);
-    }
-  }
-
-  onCardLeave(index: number) {
-    if (index === this.activeIndex) {
-      this.centerCardHover.emit(false);
-    }
+  private emitActiveStatus() {
+    const isLastCard = this.activeIndex === this.missions.length - 1;
+    this.activeCardStatus.emit({ isLastCard });
   }
 }

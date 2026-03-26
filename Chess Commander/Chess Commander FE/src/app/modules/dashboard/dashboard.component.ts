@@ -11,7 +11,6 @@ export class DashboardComponent {
     isNewGameModalOpen: boolean = false;
 
     showFooterActions: boolean = false;
-    private footerHideTimeout: any;
     private footerShowTimeout: any;
 
     openNewGameModal() {
@@ -22,31 +21,13 @@ export class DashboardComponent {
         this.isNewGameModalOpen = false;
     }
 
-    onCarouselHover(isHovered: boolean) {
-        if (isHovered) {
-            clearTimeout(this.footerHideTimeout);
-            this.footerShowTimeout = setTimeout(() => {
-                this.showFooterActions = true;
-            }, 800); // 1 second delay before showing
-        } else {
-            clearTimeout(this.footerShowTimeout);
-            this.footerHideTimeout = setTimeout(() => {
-                this.showFooterActions = false;
-            }, 300);
-        }
-    }
+    onActiveCardStatus(status: { isLastCard: boolean }) {
+        this.showFooterActions = false; // Hide immediately
+        clearTimeout(this.footerShowTimeout);
 
-    onFooterHover(isHovered: boolean) {
-        if (isHovered) {
-            clearTimeout(this.footerHideTimeout);
-            clearTimeout(this.footerShowTimeout);
-            this.showFooterActions = true; // Keep visible immediately if hovered directly
-        } else {
-            clearTimeout(this.footerShowTimeout);
-            this.footerHideTimeout = setTimeout(() => {
-                this.showFooterActions = false;
-            }, 300);
-        }
+        this.footerShowTimeout = setTimeout(() => {
+            this.showFooterActions = true;
+        }, 1000);
     }
 
     onBackgroundChange(url: string) {

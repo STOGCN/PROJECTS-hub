@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
 })
 export class FooterComponent {
   @Input() showActionButtons: boolean = false;
-  @Output() footerHover = new EventEmitter<boolean>();
 
   constructor(private router: Router) { }
 
