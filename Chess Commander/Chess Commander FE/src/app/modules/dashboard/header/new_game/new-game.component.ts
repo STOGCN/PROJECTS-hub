@@ -20,8 +20,8 @@ export class NewGameComponent {
   
   // Time Settings
   timeValues: Record<'MINUTES' | 'DAYS' | 'YEARS', number> = {
-    MINUTES: 30,
-    DAYS: 0,
+    MINUTES: 5,
+    DAYS:   0,
     YEARS: 0
   };
   timeUnit: 'MINUTES' | 'DAYS' | 'YEARS' = 'MINUTES';
