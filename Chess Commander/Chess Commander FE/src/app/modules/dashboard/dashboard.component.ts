@@ -12,6 +12,7 @@ export class DashboardComponent {
 
     showFooterActions: boolean = false;
     private footerHideTimeout: any;
+    private footerShowTimeout: any;
 
     openNewGameModal() {
         this.isNewGameModalOpen = true;
@@ -24,8 +25,11 @@ export class DashboardComponent {
     onCarouselHover(isHovered: boolean) {
         if (isHovered) {
             clearTimeout(this.footerHideTimeout);
-            this.showFooterActions = true;
+            this.footerShowTimeout = setTimeout(() => {
+                this.showFooterActions = true;
+            }, 800); // 1 second delay before showing
         } else {
+            clearTimeout(this.footerShowTimeout);
             this.footerHideTimeout = setTimeout(() => {
                 this.showFooterActions = false;
             }, 300);
@@ -35,8 +39,10 @@ export class DashboardComponent {
     onFooterHover(isHovered: boolean) {
         if (isHovered) {
             clearTimeout(this.footerHideTimeout);
-            this.showFooterActions = true;
+            clearTimeout(this.footerShowTimeout);
+            this.showFooterActions = true; // Keep visible immediately if hovered directly
         } else {
+            clearTimeout(this.footerShowTimeout);
             this.footerHideTimeout = setTimeout(() => {
                 this.showFooterActions = false;
             }, 300);
