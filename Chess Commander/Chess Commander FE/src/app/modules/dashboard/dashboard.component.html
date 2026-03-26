@@ -13,10 +13,10 @@
   
   <main class="dashboard-content">
     <app-life-timer></app-life-timer>
-    <app-game-carousel (backgroundChange)="onBackgroundChange($event)"></app-game-carousel>
+    <app-game-carousel (backgroundChange)="onBackgroundChange($event)" (centerCardHover)="onCarouselHover($event)"></app-game-carousel>
   </main>
 
-  <app-footer></app-footer>
+  <app-footer [showActionButtons]="showFooterActions" (footerHover)="onFooterHover($event)"></app-footer>
 
   <!-- Bg Toggle Button -->
   <button class="bg-toggle-btn" 

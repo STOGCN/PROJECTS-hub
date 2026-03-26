@@ -19,6 +19,7 @@ interface Mission {
 })
 export class GameCarouselComponent implements OnInit {
   @Output() backgroundChange = new EventEmitter<string>();
+  @Output() centerCardHover = new EventEmitter<boolean>();
 
   squares = Array(64).fill(0);
   activeIndex = 1;
@@ -107,5 +108,17 @@ export class GameCarouselComponent implements OnInit {
   private emitBackground() {
     const activeMission = this.missions[this.activeIndex];
     this.backgroundChange.emit(activeMission.imageUrl);
+  }
+
+  onCardEnter(index: number) {
+    if (index === this.activeIndex) {
+      this.centerCardHover.emit(true);
+    }
+  }
+
+  onCardLeave(index: number) {
+    if (index === this.activeIndex) {
+      this.centerCardHover.emit(false);
+    }
   }
 }

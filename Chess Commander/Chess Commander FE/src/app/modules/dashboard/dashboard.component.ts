@@ -10,12 +10,37 @@ export class DashboardComponent {
     isDynamicBg: boolean = true;
     isNewGameModalOpen: boolean = false;
 
+    showFooterActions: boolean = false;
+    private footerHideTimeout: any;
+
     openNewGameModal() {
         this.isNewGameModalOpen = true;
     }
 
     closeNewGameModal() {
         this.isNewGameModalOpen = false;
+    }
+
+    onCarouselHover(isHovered: boolean) {
+        if (isHovered) {
+            clearTimeout(this.footerHideTimeout);
+            this.showFooterActions = true;
+        } else {
+            this.footerHideTimeout = setTimeout(() => {
+                this.showFooterActions = false;
+            }, 300);
+        }
+    }
+
+    onFooterHover(isHovered: boolean) {
+        if (isHovered) {
+            clearTimeout(this.footerHideTimeout);
+            this.showFooterActions = true;
+        } else {
+            this.footerHideTimeout = setTimeout(() => {
+                this.showFooterActions = false;
+            }, 300);
+        }
     }
 
     onBackgroundChange(url: string) {

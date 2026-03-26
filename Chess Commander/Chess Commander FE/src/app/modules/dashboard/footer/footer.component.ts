@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent {
+  @Input() showActionButtons: boolean = false;
+  @Output() footerHover = new EventEmitter<boolean>();
+
   constructor(private router: Router) { }
 
   onRecordsClick() {

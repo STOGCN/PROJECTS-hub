@@ -1,7 +1,9 @@
 <div class="carousel-container">
   <div *ngFor="let mission of missions; let i = index" 
        [ngClass]="getCardClass(i)"
-       (click)="selectMission(i)">
+       (click)="selectMission(i)"
+       (mouseenter)="onCardEnter(i)"
+       (mouseleave)="onCardLeave(i)">
     
     <!-- Active Card Internal Structure -->
     <ng-container *ngIf="i === activeIndex">
