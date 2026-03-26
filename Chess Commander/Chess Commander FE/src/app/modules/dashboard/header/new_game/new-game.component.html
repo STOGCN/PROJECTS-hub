@@ -66,23 +66,33 @@
         <div class="input-group time-setter-group">
           <label class="control-label">CHRONO-LOCK (TIME LIMIT)</label>
           <div class="tactile-time-panel">
-            <div class="time-adjuster">
-              <button class="mech-btn minus-btn" (click)="decreaseTime()">
-                <i class="bi bi-dash-lg"></i>
-              </button>
-              <div class="time-display-wrapper">
-                <input type="number" class="time-number-input" [(ngModel)]="timeValue" min="0">
+            <div class="time-controls-row">
+              <div class="time-adjuster">
+                <button class="mech-btn minus-btn" (click)="decreaseTime()">
+                  <i class="bi bi-dash-lg"></i>
+                </button>
+                <div class="time-display-wrapper">
+                  <input type="number" class="time-number-input" [(ngModel)]="timeValues[timeUnit]" min="0">
+                </div>
+                <button class="mech-btn plus-btn" (click)="increaseTime()">
+                  <i class="bi bi-plus-lg"></i>
+                </button>
               </div>
-              <button class="mech-btn plus-btn" (click)="increaseTime()">
-                <i class="bi bi-plus-lg"></i>
-              </button>
+              
+              <div class="unit-selector">
+                <button class="unit-btn" [class.active]="timeUnit === 'MINUTES'" (click)="setTimeUnit('MINUTES')">MIN.</button>
+                <button class="unit-btn" [class.active]="timeUnit === 'DAYS'" (click)="setTimeUnit('DAYS')">DAYS</button>
+                <button class="unit-btn" [class.active]="timeUnit === 'YEARS'" (click)="setTimeUnit('YEARS')">YEARS</button>
+              </div>
             </div>
-            
-            <div class="unit-selector">
-              <button class="unit-btn" [class.active]="timeUnit === 'MINUTES'" (click)="setTimeUnit('MINUTES')">MIN.</button>
-              <button class="unit-btn" [class.active]="timeUnit === 'DAYS'" (click)="setTimeUnit('DAYS')">DAYS</button>
-              <button class="unit-btn" [class.active]="timeUnit === 'YEARS'" (click)="setTimeUnit('YEARS')">YEARS</button>
-            </div>
+
+            <ng-container *ngIf="totalMs > 0">
+              <div class="time-preview-divider"></div>
+              <div class="time-preview">
+                <span class="preview-label"><i class="bi bi-clock-history"></i> SYSTEM CLOCK</span>
+                <span class="preview-value">{{ timePreview }}</span>
+              </div>
+            </ng-container>
           </div>
         </div>
 

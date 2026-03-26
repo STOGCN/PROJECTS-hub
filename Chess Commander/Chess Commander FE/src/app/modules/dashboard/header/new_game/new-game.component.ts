@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { StockfishService } from '../../../computer-mode/stockfish.service';
+import { LifeTimerService } from '../../life-timer/life-timer.service';
 import { Color } from 'src/app/chess-logic/models';
 
 @Component({
@@ -17,8 +18,12 @@ export class NewGameComponent {
   importance: 'CASUAL' | 'SERIOUS' | 'CRITICAL' = 'SERIOUS';
   goal: string = '';
   
-  // Time limit
-  timeValue: number = 30;
+  // Time Settings
+  timeValues: Record<'MINUTES' | 'DAYS' | 'YEARS', number> = {
+    MINUTES: 30,
+    DAYS: 0,
+    YEARS: 0
+  };
   timeUnit: 'MINUTES' | 'DAYS' | 'YEARS' = 'MINUTES';
 
   // Play Mode
@@ -34,8 +39,33 @@ export class NewGameComponent {
 
   constructor(
     private router: Router,
-    private stockfishService: StockfishService
+    private stockfishService: StockfishService,
+    private lifeTimerService: LifeTimerService
   ) {}
+
+  get totalMs(): number {
+    return (this.timeValues['MINUTES'] || 0) * 60000 
+         + (this.timeValues['DAYS'] || 0) * 86400000 
+         + (this.timeValues['YEARS'] || 0) * 31536000000;
+  }
+
+  get timePreview(): string {
+    const ms = this.totalMs;
+    if (ms === 0) return '0 Y / 0 M / 0 D - 0:00:00';
+
+    const totalSeconds = Math.floor(ms / 1000);
+    const totalHours = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+
+    const totalDays = Math.floor(totalHours / 24);
+    const years = Math.floor(totalDays / 365);
+    const remainingDaysAfterYears = totalDays % 365;
+    const months = Math.floor(remainingDaysAfterYears / 30);
+    const days = remainingDaysAfterYears % 30;
+
+    return `${years} Y / ${months} M / ${days} D - ${totalHours}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
 
   // Handlers
   closeModal() {
@@ -107,14 +137,17 @@ export class NewGameComponent {
   }
 
   decreaseTime() {
-    if (this.timeValue > 0) this.timeValue--;
+    if (this.timeValues[this.timeUnit] > 0) this.timeValues[this.timeUnit]--;
   }
 
   increaseTime() {
-    this.timeValue++;
+    if (!this.timeValues[this.timeUnit]) this.timeValues[this.timeUnit] = 0;
+    this.timeValues[this.timeUnit]++;
   }
 
   startGame() {
+    this.lifeTimerService.setTime(this.totalMs);
+
     this.closeModal();
     
     if (this.playMode === 'MANUAL' || this.playMode === 'NONE') {

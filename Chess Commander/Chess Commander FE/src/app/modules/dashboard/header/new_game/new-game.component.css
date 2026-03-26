@@ -334,13 +334,20 @@
 
 .tactile-time-panel {
   display: flex;
-  align-items: center;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 1.25rem;
   background: linear-gradient(180deg, rgba(20, 25, 35, 0.4), rgba(10, 15, 20, 0.7));
   border: 1px solid rgba(80, 140, 255, 0.15);
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.time-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .time-adjuster {
@@ -461,6 +468,36 @@
 .unit-btn.active::before {
   background: #4da6ff;
   box-shadow: 0 0 8px #4da6ff;
+}
+
+.time-preview-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(80, 140, 255, 0.2), transparent);
+  width: 100%;
+}
+
+.time-preview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.65rem;
+  color: #64748b;
+  width: 100%;
+  margin-top: 0;
+  letter-spacing: 1px;
+}
+
+.preview-label i {
+  margin-right: 0.4rem;
+  color: #8b9bb4;
+}
+
+.time-preview .preview-value {
+  color: #4da6ff;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 1px;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(77, 166, 255, 0.4);
 }
 
 /* Mode Selector */
