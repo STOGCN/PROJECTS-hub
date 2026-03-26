@@ -4,8 +4,8 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(5, 7, 12, 0.85);
-  backdrop-filter: blur(16px);
+  background: rgba(5, 7, 12, 0.4);
+  backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -22,7 +22,9 @@
 .new-game-modal {
   width: 900px;
   max-width: 95vw;
-  background: linear-gradient(145deg, rgba(16, 22, 36, 0.9), rgba(8, 12, 20, 0.95));
+  background: linear-gradient(145deg, rgba(10, 14, 25, 0.4), rgba(4, 8, 15, 0.5));
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(80, 140, 255, 0.2);
   border-radius: 16px;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(80, 140, 255, 0.05);
@@ -133,7 +135,7 @@
 
 /* Inputs */
 .heavy-input, .heavy-textarea {
-  background: rgba(5, 7, 12, 0.6);
+  background: rgba(5, 7, 12, 0.3);
   border: 1px solid rgba(80, 140, 255, 0.2);
   border-radius: 8px;
   padding: 1rem 1.5rem;
@@ -173,7 +175,7 @@
   min-height: 180px;
   border: 2px dashed rgba(80, 140, 255, 0.3);
   border-radius: 12px;
-  background: rgba(5, 7, 12, 0.4);
+  background: rgba(5, 7, 12, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -263,7 +265,7 @@
 /* Segmented Control (Importance) */
 .segmented-control {
   display: flex;
-  background: rgba(5, 7, 12, 0.8);
+  background: rgba(5, 7, 12, 0.4);
   border-radius: 8px;
   padding: 4px;
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
@@ -273,7 +275,7 @@
 .segment-btn {
   flex: 1;
   padding: 0.8rem 0;
-  border: none;
+  border: 1px solid transparent;
   background: transparent;
   color: #64748b;
   font-weight: 700;
@@ -311,6 +313,20 @@
   border: 1px solid rgba(239, 68, 68, 0.4);
 }
 
+.segment-btn.active-white {
+  background: rgba(240, 244, 248, 0.15);
+  color: #f0f4f8;
+  box-shadow: 0 0 15px rgba(240, 244, 248, 0.3);
+  border: 1px solid rgba(240, 244, 248, 0.3);
+}
+
+.segment-btn.active-black {
+  background: rgba(15, 23, 42, 0.9);
+  color: #f8fafc;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2), inset 0 0 15px #000000;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
 /* Heavy Time Setter */
 .time-setter-group {
   margin-top: 1rem;
@@ -320,7 +336,7 @@
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  background: linear-gradient(180deg, rgba(20, 25, 35, 0.8), rgba(10, 15, 20, 0.95));
+  background: linear-gradient(180deg, rgba(20, 25, 35, 0.4), rgba(10, 15, 20, 0.7));
   border: 1px solid rgba(80, 140, 255, 0.15);
   padding: 1.5rem;
   border-radius: 12px;
@@ -396,6 +412,7 @@
 }
 .time-number-input[type=number] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .unit-selector {
@@ -460,7 +477,7 @@
   justify-content: center;
   gap: 0.75rem;
   padding: 1.5rem 0;
-  background: rgba(16, 22, 36, 0.6);
+  background: rgba(16, 22, 36, 0.3);
   border: 1px solid rgba(80, 140, 255, 0.15);
   border-radius: 12px;
   cursor: pointer;
@@ -515,16 +532,56 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
   background: rgba(255, 255, 255, 0.02);
   border-bottom: 1px solid transparent;
   transition: all 0.3s ease;
 }
 
-.advanced-header:hover {
-  background: rgba(255, 255, 255, 0.05);
+.advanced-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #4da6ff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: 1px;
+  cursor: pointer;
 }
 
+.advanced-label:hover {
+  text-shadow: 0 0 10px rgba(77, 166, 255, 0.5);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.info-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.info-btn:hover, .info-btn.active {
+  color: #10b981;
+  text-shadow: 0 0 15px rgba(16, 185, 129, 0.8);
+  transform: scale(1.1);
+}
+
+.expand-icon {
+  color: #8b9bb4;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
 .advanced-content {
   padding: 1.5rem;
   display: flex;
@@ -532,6 +589,68 @@
   gap: 1.5rem;
   border-top: 1px solid rgba(80, 140, 255, 0.1);
   background: #080c14;
+}
+
+/* Engine Tutorial Box */
+.engine-tutorial-box {
+  background: rgba(16, 185, 129, 0.05);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: inset 0 0 15px rgba(16, 185, 129, 0.05), 0 4px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+.tutorial-header {
+  color: #10b981;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+  padding-bottom: 0.5rem;
+}
+
+.tutorial-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tutorial-list li {
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.tutorial-list li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #10b981;
+  font-weight: 800;
+}
+
+.highlight-blue {
+  color: #4da6ff;
+  font-weight: 700;
+}
+
+.sub-text {
+  color: #64748b;
+  font-size: 0.65rem;
+  display: block;
+  margin-top: 0.2rem;
 }
 
 .advanced-label {
@@ -584,6 +703,7 @@
 /* Cyber-style input range slider */
 .cyber-slider {
   -webkit-appearance: none;
+  appearance: none;
   width: 100%;
   height: 4px;
   background: rgba(255, 255, 255, 0.1);
@@ -616,7 +736,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 2.5rem;
-  background: rgba(5, 7, 12, 0.6);
+  background: rgba(5, 7, 12, 0.2);
   border-top: 1px solid rgba(80, 140, 255, 0.15);
 }
 

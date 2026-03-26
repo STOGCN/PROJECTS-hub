@@ -105,16 +105,57 @@
           </div>
         </div>
 
+        <!-- Player Color Selection (Only if Stockfish) -->
+        <div class="input-group stockfish-color-panel" *ngIf="playMode === 'STOCKFISH'">
+          <label class="control-label">PLAY AS (TEAM)</label>
+          <div class="segmented-control">
+            <button class="segment-btn" [class.active-white]="playerColor === 'white'" (click)="setPlayerColor('white')">
+              <i class="bi bi-circle"></i> WHITE
+            </button>
+            <button class="segment-btn" [class.active-black]="playerColor === 'black'" (click)="setPlayerColor('black')">
+              <i class="bi bi-circle-fill"></i> BLACK
+            </button>
+          </div>
+        </div>
+
         <!-- Stockfish Advanced (Only if Stockfish) -->
         <div class="stockfish-advanced-panel" [class.expanded]="playMode === 'STOCKFISH'">
-          <div class="advanced-header" (click)="toggleAdvanced()">
-            <span class="advanced-label">
+          <div class="advanced-header">
+            <span class="advanced-label" (click)="toggleAdvanced()">
               <i class="bi bi-sliders"></i> ADVANCED ENGINE SETTINGS
             </span>
-            <i class="bi bi-chevron-down expand-icon" [class.rotated]="showAdvanced"></i>
+            <div class="header-actions">
+              <button class="info-btn" (click)="toggleTutorial($event)" [class.active]="showTutorial" title="Tutorial">
+                <i class="bi bi-info-circle-fill"></i>
+              </button>
+              <i class="bi bi-chevron-down expand-icon" [class.rotated]="showAdvanced" (click)="toggleAdvanced()"></i>
+            </div>
           </div>
           
           <div class="advanced-content" *ngIf="showAdvanced">
+            <!-- Tutorial Box -->
+            <div class="engine-tutorial-box" *ngIf="showTutorial">
+              <div class="tutorial-header">
+                <i class="bi bi-lightbulb-fill"></i> ENGINE CONFIGURATION GUIDE
+              </div>
+              <ul class="tutorial-list">
+                <li>
+                  <span class="highlight-blue">CALCULATION DEPTH (1-30):</span> 
+                  ระบุว่า AI จะคำนวณล่วงหน้ากี่ตาเดิน <br>
+                  <span class="sub-text">(1-5 มือใหม่ | 10-15 ระดับกลาง | 20+ ระดับพระกาฬแต่อาจจะใช้เวลาคิดนาน)</span>
+                </li>
+                <li>
+                  <span class="highlight-blue">MOVE TIME (MS):</span> 
+                  เวลาสูงสุดที่ AI ได้รับอนุญาตให้ใช้คิดต่อตา (1000ms = 1 วินาที)
+                </li>
+                <li>
+                  <span class="highlight-blue">SKILL LEVEL (0-20):</span> 
+                  ระดับความเก่งกาจของ AI หากค่าน้อย AI จะแกล้งเดินพลาดเพื่อให้มีช่องโหว่ <br>
+                  <span class="sub-text">(20 คือเต็มกำลังสูงสุด ไม่มีออมมือ)</span>
+                </li>
+              </ul>
+            </div>
+
             <div class="slider-group">
               <div class="slider-label-row">
                 <label>CALCULATION DEPTH</label>

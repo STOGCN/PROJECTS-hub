@@ -1,4 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { StockfishService } from '../../../computer-mode/stockfish.service';
+import { Color } from 'src/app/chess-logic/models';
 
 @Component({
   selector: 'app-new-game',
@@ -23,9 +26,16 @@ export class NewGameComponent {
 
   // Stockfish Settings
   showAdvanced: boolean = false;
-  depth: number = 10;
+  showTutorial: boolean = false;
+  playerColor: 'white' | 'black' = 'white';
+  depth: number = 15;
   movetime: number = 1000;
   skillLevel: number = 10;
+
+  constructor(
+    private router: Router,
+    private stockfishService: StockfishService
+  ) {}
 
   // Handlers
   closeModal() {
@@ -76,12 +86,24 @@ export class NewGameComponent {
     this.playMode = mode;
   }
 
+  setPlayerColor(color: 'white' | 'black') {
+    this.playerColor = color;
+  }
+
   setTimeUnit(unit: 'MINUTES' | 'DAYS' | 'YEARS') {
     this.timeUnit = unit;
   }
 
   toggleAdvanced() {
     this.showAdvanced = !this.showAdvanced;
+  }
+
+  toggleTutorial(event: Event) {
+    event.stopPropagation();
+    this.showTutorial = !this.showTutorial;
+    if (this.showTutorial) {
+      this.showAdvanced = true; // Auto-expand settings if tutorial is opened
+    }
   }
 
   decreaseTime() {
@@ -93,20 +115,18 @@ export class NewGameComponent {
   }
 
   startGame() {
-    // Collect all data and emit or call service
-    console.log('Starting game with:', {
-      gameName: this.gameName,
-      coverImage: this.coverImage,
-      importance: this.importance,
-      goal: this.goal,
-      timeLimit: `${this.timeValue} ${this.timeUnit}`,
-      playMode: this.playMode,
-      stockfishOptions: this.playMode === 'STOCKFISH' ? {
-        depth: this.depth,
-        movetime: this.movetime,
-        skillLevel: this.skillLevel
-      } : null
-    });
     this.closeModal();
+    
+    if (this.playMode === 'MANUAL' || this.playMode === 'NONE') {
+      this.router.navigate(['against-friend']);
+    } else if (this.playMode === 'STOCKFISH') {
+      // Setup stockfish engine configs
+      this.stockfishService.computerConfiguration$.next({
+        color: this.playerColor === 'white' ? Color.Black : Color.White, // If player is white, AI is Black
+        level: 3, // Fallback default
+        depth: this.depth // User's customized depth selection overrides standard level
+      });
+      this.router.navigate(['against-computer']);
+    }
   }
 }
