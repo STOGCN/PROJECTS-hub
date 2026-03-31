@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Color, Coords, FENChar, pieceImagePaths } from '../../chess-logic/models';
@@ -17,6 +17,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./register-password.component.css']
 })
 export class RegisterPasswordComponent {
+  @ViewChild('passwordCard') passwordCardElement!: ElementRef;
+
   public currentStep: 1 | 2 = 1;
   public chessBoardView: (FENChar | null)[][] = Array.from({ length: 8 }, () => Array(8).fill(null));
   public pieceImagePaths = pieceImagePaths;
@@ -118,6 +120,7 @@ export class RegisterPasswordComponent {
     }
     this.currentStep = 2;
     this.initializeSequenceBoard();
+    this.scrollToTop();
   }
 
   public backToStep1() {
@@ -125,6 +128,15 @@ export class RegisterPasswordComponent {
     this.chessBoardView = this.fenConverter.convertFENToSimpleBoard(this.fenInput);
     this.selectedSquare = null;
     this.pieceSafeSquares = [];
+    this.scrollToTop();
+  }
+
+  private scrollToTop() {
+    setTimeout(() => {
+      if (this.passwordCardElement) {
+        this.passwordCardElement.nativeElement.scrollTop = 0;
+      }
+    }, 0);
   }
 
   // ---------------- STEP 2 LOGIC ----------------
