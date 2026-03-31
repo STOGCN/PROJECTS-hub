@@ -40,6 +40,13 @@ export class LifeTimerService implements OnDestroy {
     this.startTimer();
   }
 
+  public setTime(ms: number) {
+    this.totalMs = ms;
+    this.lastUpdateTimestamp = Date.now();
+    this.saveToStorage();
+    this.updateDisplay();
+  }
+
   ngOnDestroy() {
     this.stopTimer();
   }

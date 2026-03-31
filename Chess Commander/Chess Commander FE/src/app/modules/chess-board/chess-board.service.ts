@@ -7,4 +7,5 @@ import { FENConverter } from 'src/app/chess-logic/FENConverter';
 })
 export class ChessBoardService {
   public chessBoardState$ = new BehaviorSubject<string>(FENConverter.initalPosition);
+  public gameTimeMs$ = new BehaviorSubject<number>(300000); // Default 5 mins
 }

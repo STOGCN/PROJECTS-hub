@@ -1,93 +1,122 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-
-interface Mission {
-  id: string;
-  title: string;
-  subtitle: string;
-  timer: string;
-  gameClock: string;
-  gameNumber: string;
-  imageUrl: string;
-  isCritical: boolean;
-  isLocked: boolean;
-}
+import { Component, Output, EventEmitter, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Mission, MissionService } from '../mission.service';
 
 @Component({
   selector: 'app-game-carousel',
   templateUrl: './game-carousel.component.html',
   styleUrls: ['./game-carousel.component.css']
 })
-export class GameCarouselComponent implements OnInit {
+export class GameCarouselComponent implements OnInit, OnDestroy {
   @Output() backgroundChange = new EventEmitter<string>();
+  @Output() activeCardStatus = new EventEmitter<{ isLastCard: boolean }>();
+  @Output() activeMissionChange = new EventEmitter<Mission>();
 
   squares = Array(64).fill(0);
-  activeIndex = 1;
+  activeIndex = 0;
+  missions: Mission[] = [];
+  private sub: Subscription = new Subscription();
 
-  ngOnInit() {
-    this.emitBackground();
+  // Swipe State
+  private startX = 0;
+  private isDragging = false;
+
+  constructor(private missionService: MissionService) {}
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    // Prevent carousel movement if user is typing in an input field
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+      return;
+    }
+
+    if (event.key === 'ArrowLeft') {
+      this.prev();
+    } else if (event.key === 'ArrowRight') {
+      this.next();
+    }
   }
 
-  missions: Mission[] = [
-    {
-      id: '8411',
-      title: 'LOST HERITAGE',
-      subtitle: 'มรดกที่สาบสูญ',
-      timer: ':04:12.822',
-      gameClock: ':12:42.159',
-      gameNumber: '8411',
-      imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBexjYCnlKD6w4xcoqyJKoJZuGCw7f0OrLQDi5LugwTX9zDfhYSy2AE9J6KHfgEgpDMwaKOxpN3EYPOoZFMtNrBZ1nv-RUC4pf_GoVijUevG9J8VTdSEjD5qRScoOB_hjbid7s0gmogvWyDLlBbyog0DYY5_jMIGgO58k45hlyOIKQvhN8r1OtBk0Ajo1EO1VAzXIKqlodtNHzuUWUqKsJU1j8xDRPNCiFzTq-_rB_SMgw5fNK8anVlDtYva2te8sGT5JTv5c8gqsY',
-      isCritical: false,
-      isLocked: true
-    },
-    {
-      id: '8412',
-      title: 'THE LAST FREEDOM',
-      subtitle: 'อิสรภาพ สุดท้าย: อิสรภาพ',
-      timer: ':59:42.159',
-      gameClock: ':59:42.159',
-      gameNumber: '8412',
-      imageUrl: 'assets/pieces/ChatGPT Image Mar 12, 2026, 03_25_47 PM.png',
-      isCritical: true,
-      isLocked: false
-    },
-    {
-      id: '8413',
-      title: 'SECRET NETWORK',
-      subtitle: 'เครือข่ายลับ',
-      timer: ':22:05.118',
-      gameClock: ':08:15.332',
-      gameNumber: '8413',
-      imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDljhuM9rR-F4KH2ZOjCGBIxtJotyrgWknNxOuFSon-oteoI3bbidkipNYMY6UrwozYR61-Bh6mEfNE1OsJw0D7Fq-ppCrCo6ltngocaibn0mGOa-f89kxo0HD6bMM-zRYVvhlPyFgXtBNzy7h6IH8bDkcUQPIK83qHOBYo-rqtzbxl3W47jJ4_KKty6H2gMqyMHXQ0mdHn_adrcsO_4cUeTUosmni743TfPp9zz7l1jU-R0BqwUk-SJelUVYZXAVPKKSwctCCN00E',
-      isCritical: false,
-      isLocked: false
-    },
-    {
-      id: '8414',
-      title: 'QUANTUM BREACH',
-      subtitle: 'การเจาะระบบควอนตัม',
-      timer: ':15:30.000',
-      gameClock: ':15:30.000',
-      gameNumber: '8414',
-      imageUrl: 'https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2070&auto=format&fit=crop',
-      isCritical: true,
-      isLocked: false
-    },
-    {
-      id: '8415',
-      title: 'SILENT SIGNAL',
-      subtitle: 'สัญญาณเงียบ',
-      timer: ':02:45.999',
-      gameClock: ':02:45.999',
-      gameNumber: '8415',
-      imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop',
-      isCritical: false,
-      isLocked: false
+  prev() {
+    if (this.activeIndex > 0) {
+      this.selectMission(this.activeIndex - 1);
     }
-  ];
+  }
+
+  next() {
+    if (this.activeIndex < this.missions.length - 1) {
+      this.selectMission(this.activeIndex + 1);
+    }
+  }
+
+  onPointerDown(event: PointerEvent) {
+    this.isDragging = true;
+    this.startX = event.clientX;
+    try {
+      (event.target as HTMLElement).setPointerCapture(event.pointerId);
+    } catch(e) {}
+  }
+
+  onPointerUp(event: PointerEvent) {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+    try {
+      (event.target as HTMLElement).releasePointerCapture(event.pointerId);
+    } catch(e) {}
+
+    const diff = event.clientX - this.startX;
+    if (diff > 50) {
+      this.prev(); // Dragged right -> show previous card
+    } else if (diff < -50) {
+      this.next(); // Dragged left -> show next card
+    }
+  }
+
+  ngOnInit() {
+    this.sub.add(
+      this.missionService.missions$.subscribe(missions => {
+        this.missions = missions;
+        
+        let targetIndex = 0;
+        const savedId = this.missionService.activeMissionId$.value;
+        if (savedId) {
+          const found = this.missions.findIndex(m => m.id === savedId);
+          if (found !== -1) targetIndex = found;
+        }
+
+        this.activeIndex = targetIndex;
+        
+        // Ensure activeIndex is valid if missions array changes
+        if (this.activeIndex >= this.missions.length && this.missions.length > 0) {
+           this.activeIndex = this.missions.length - 1;
+        }
+
+        if (this.missions.length > 0) {
+          setTimeout(() => {
+            this.emitBackground();
+            this.emitActiveStatus();
+            this.activeMissionChange.emit(this.missions[this.activeIndex]);
+          });
+        }
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
 
   selectMission(index: number) {
     this.activeIndex = index;
+    const mission = this.missions[this.activeIndex];
+    if (mission) {
+      this.missionService.activeMissionId$.next(mission.id);
+    }
+    
     this.emitBackground();
+    this.emitActiveStatus();
+    this.activeMissionChange.emit(mission);
   }
 
   getCardClass(index: number): string {
@@ -107,5 +136,10 @@ export class GameCarouselComponent implements OnInit {
   private emitBackground() {
     const activeMission = this.missions[this.activeIndex];
     this.backgroundChange.emit(activeMission.imageUrl);
+  }
+
+  private emitActiveStatus() {
+    const isLastCard = this.activeIndex === this.missions.length - 1;
+    this.activeCardStatus.emit({ isLastCard });
   }
 }

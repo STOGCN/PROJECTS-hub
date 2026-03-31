@@ -24,6 +24,7 @@ export type StockfishResponse = {
 export type ComputerConfiguration = {
     color: Color;
     level: number;
+    depth?: number;
 }
 
 export const stockfishLevels: Readonly<Record<number, number>> = {

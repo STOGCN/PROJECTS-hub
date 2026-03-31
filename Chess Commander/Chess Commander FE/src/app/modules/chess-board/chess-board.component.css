@@ -86,3 +86,192 @@
 .promotion-square {
     box-shadow: inset rgb(0, 98, 150) 0px 0px 40px 0px, inset rgb(0, 98, 150) 0px 0px 40px 0px, inset rgba(0, 0, 0, 1) 0px 0px 36px -24px;
 }
+
+/* Chess.com Style Layout */
+.game-layout-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    align-items: flex-start;
+}
+
+.board-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar-section {
+    display: flex;
+    flex-direction: column;
+    width: 380px;
+    background-color: #262421; /* Chess.com dark theme */
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    height: 520px; /* roughly matches board height slightly taller */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+/* Top Tabs */
+.sidebar-tabs {
+    display: flex;
+    background-color: #211f1c;
+    border-bottom: 1px solid #3d3b38;
+}
+
+.sidebar-tab {
+    flex: 1;
+    text-align: center;
+    padding: 12px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #989795;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar-tab:hover {
+    color: #fff;
+    background-color: #312e2b;
+}
+
+.sidebar-tab.active {
+    color: #fff;
+    background-color: #262421;
+    border-top: 2px solid #82b944; /* Chess.com green accent */
+}
+
+/* Sub Tabs */
+.sub-tabs {
+    display: flex;
+    border-bottom: 1px solid #3d3b38;
+}
+
+.sub-tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 13px;
+    cursor: pointer;
+    color: #a7a6a2;
+}
+
+.sub-tab:hover {
+    color: #fff;
+}
+
+.sub-tab.active {
+    color: #fff;
+    border-bottom: 2px solid #fff;
+}
+
+/* Content Area for Move List */
+.sidebar-content {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+/* Footer Controls */
+.sidebar-footer {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    background-color: #211f1c;
+    border-top: 1px solid #3d3b38;
+}
+
+.sidebar-btn {
+    background: none;
+    border: none;
+    color: #a7a6a2;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar-btn:hover {
+    background-color: #312e2b;
+    color: #fff;
+}
+
+/* Player Profiles */
+.player-profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 480px;
+    padding: 12px 0;
+    margin-bottom: 5px;
+}
+
+.player-profile.bottom-player {
+    margin-bottom: 0;
+    margin-top: 5px;
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #e0e0e0;
+}
+
+.player-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 4px;
+    background-color: #333;
+    object-fit: cover;
+}
+
+.player-name {
+    font-weight: bold;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Timer Styling (Chess.com Style) */
+.player-timer {
+    background-color: #1f1f1f;
+    color: #e0e0e0;
+    font-family: 'Roboto Mono', 'Courier New', Courier, monospace;
+    font-weight: 700;
+    font-size: 2.2rem;
+    padding: 4px 16px;
+    border-radius: 6px;
+    border: 3px solid transparent; 
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    min-width: 140px;
+    text-align: center;
+    line-height: 1.2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    letter-spacing: -1px;
+}
+
+.player-timer.active-timer {
+    background-color: #2a2825;
+    color: #ffffff;
+    border-color: #f0c040; /* Light gold border for active player */
+}
+
+.player-timer.low-time {
+    color: #ff4a4a;
+    background-color: #3b1818;
+    border-color: #ff4a4a;
+    animation: pulse-red 1s infinite alternate;
+}
+
+@keyframes pulse-red {
+    from { background-color: #3b1818; }
+    to { background-color: #5c1818; border-color: #ff2a2a; }
+}

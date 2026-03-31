@@ -6,7 +6,8 @@
     </button>
   </div>
 
-  <div class="footer-center">
+  <div class="footer-center" 
+       [class.visible]="showActionButtons">
     <button class="play-btn" (click)="onPlayClick()">
       <i class="bi bi-play"></i>
       <span>PLAY</span>

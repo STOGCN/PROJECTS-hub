@@ -37,9 +37,10 @@ export class StockfishService {
   }
 
   public getBestMove(fen: string): Observable<ChessMove> {
+    const config = this.computerConfiguration$.value;
     const queryParams: StockfishQueryParams = {
       fen,
-      depth: stockfishLevels[this.computerConfiguration$.value.level],
+      depth: config.depth !== undefined ? config.depth : stockfishLevels[config.level],
     };
 
     let params = new HttpParams().appendAll(queryParams);
