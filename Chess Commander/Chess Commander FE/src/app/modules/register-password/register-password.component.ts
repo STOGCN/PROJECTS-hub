@@ -29,6 +29,21 @@ export class RegisterPasswordComponent {
 
   // Step 2 Sequence Setup
   public sequenceLength: number = 3;
+  
+  // Board Orientation
+  public isFlipped: boolean = false;
+
+  public get boardRows(): number[] {
+    return this.isFlipped ? [0, 1, 2, 3, 4, 5, 6, 7] : [7, 6, 5, 4, 3, 2, 1, 0];
+  }
+
+  public get boardCols(): number[] {
+    return this.isFlipped ? [7, 6, 5, 4, 3, 2, 1, 0] : [0, 1, 2, 3, 4, 5, 6, 7];
+  }
+
+  public flipBoard(): void {
+    this.isFlipped = !this.isFlipped;
+  }
   public userEnteredMoves: string[] = [];
   public showHistoryModal: boolean = false;
   public showPromotionModal: boolean = false;
