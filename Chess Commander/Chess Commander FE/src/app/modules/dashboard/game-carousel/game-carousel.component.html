@@ -1,4 +1,8 @@
-<div class="carousel-container">
+<div class="carousel-container"
+     (pointerdown)="onPointerDown($event)"
+     (pointerup)="onPointerUp($event)"
+     (pointercancel)="onPointerUp($event)"
+     (pointerleave)="onPointerUp($event)">
   <div *ngFor="let mission of missions; let i = index" 
        [ngClass]="getCardClass(i)"
        (click)="selectMission(i)">

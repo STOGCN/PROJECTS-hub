@@ -8,6 +8,8 @@
     height: 700px;
     padding: 2rem;
     position: relative;
+    user-select: none;
+    touch-action: pan-y; /* Allow vertical scrolling, handle horizontal swipe */
 }
 
 .side-card {
