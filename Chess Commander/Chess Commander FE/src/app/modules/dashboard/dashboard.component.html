@@ -14,11 +14,12 @@
   <main class="dashboard-content">
     <app-life-timer></app-life-timer>
     <app-game-carousel (backgroundChange)="onBackgroundChange($event)" 
-                       (activeCardStatus)="onActiveCardStatus($event)">
+                       (activeCardStatus)="onActiveCardStatus($event)"
+                       (activeMissionChange)="onActiveMissionChange($event)">
     </app-game-carousel>
   </main>
 
-  <app-footer [showActionButtons]="showFooterActions"></app-footer>
+  <app-footer [showActionButtons]="showFooterActions" (playAction)="onPlayGame()"></app-footer>
 
   <!-- Bg Toggle Button -->
   <button class="bg-toggle-btn" 

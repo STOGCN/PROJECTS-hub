@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class FooterComponent {
   @Input() showActionButtons: boolean = false;
+  @Output() playAction = new EventEmitter<void>();
 
   constructor(private router: Router) { }
 
@@ -18,7 +19,7 @@ export class FooterComponent {
 
   onPlayClick() {
     console.log('Play clicked');
-    this.router.navigate(['/against-computer']);
+    this.playAction.emit();
   }
 
   onMoveLogClick() {

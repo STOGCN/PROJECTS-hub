@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { StockfishService } from '../../../computer-mode/stockfish.service';
-import { LifeTimerService } from '../../life-timer/life-timer.service';
 import { Color } from 'src/app/chess-logic/models';
+import { ChessBoardService } from '../../../chess-board/chess-board.service';
+import { MissionService } from '../../mission.service';
 
 @Component({
   selector: 'app-new-game',
@@ -21,7 +22,7 @@ export class NewGameComponent {
   // Time Settings
   timeValues: Record<'MINUTES' | 'DAYS' | 'YEARS', number> = {
     MINUTES: 5,
-    DAYS:   0,
+    DAYS:   0,    
     YEARS: 0
   };
   timeUnit: 'MINUTES' | 'DAYS' | 'YEARS' = 'MINUTES';
@@ -40,7 +41,8 @@ export class NewGameComponent {
   constructor(
     private router: Router,
     private stockfishService: StockfishService,
-    private lifeTimerService: LifeTimerService
+    private chessBoardService: ChessBoardService,
+    private missionService: MissionService
   ) {}
 
   get totalMs(): number {
@@ -146,9 +148,29 @@ export class NewGameComponent {
   }
 
   startGame() {
-    this.lifeTimerService.setTime(this.totalMs);
-
     this.closeModal();
+    this.chessBoardService.gameTimeMs$.next(this.totalMs);
+    
+    // Create and add new mission to carousel
+    const newMissionId = Math.floor(1000 + Math.random() * 9000).toString();
+    const formattedTime = this.timePreview.split(' - ')[1] || '00:00:00';
+    
+    this.missionService.addMission({
+      id: newMissionId,
+      title: this.gameName || 'CUSTOM GAME',
+      subtitle: this.goal || 'No specified goal',
+      timer: `:${formattedTime}`,
+      gameClock: `:${formattedTime}`,
+      gameNumber: newMissionId,
+      imageUrl: this.coverImage || 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?q=80&w=2071&auto=format&fit=crop', // default fallback image if no cover
+      isCritical: this.importance === 'CRITICAL',
+      isLocked: false,
+      totalMs: this.totalMs,
+      playMode: this.playMode
+    });
+    
+    // Auto-select the newly created mission
+    this.missionService.activeMissionId$.next(newMissionId);
     
     if (this.playMode === 'MANUAL' || this.playMode === 'NONE') {
       this.router.navigate(['against-friend']);

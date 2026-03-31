@@ -41,6 +41,12 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
 
   public flipMode: boolean = false;
   private subscriptions$ = new Subscription();
+  
+  // Timer Properties
+  public whiteTime: number = 0;
+  public blackTime: number = 0;
+  private timerInterval: any;
+  public Color = Color; // Expose Color enum to template
 
   constructor(protected chessBoardService: ChessBoardService) { }
 
@@ -68,9 +74,17 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
       .subscribe();
 
     this.subscriptions$.add(keyEventSubscription$);
+
+    const timeSubscription = this.chessBoardService.gameTimeMs$.subscribe(time => {
+      this.whiteTime = time;
+      this.blackTime = time;
+      this.startTimer();
+    });
+    this.subscriptions$.add(timeSubscription);
   }
 
   public ngOnDestroy(): void {
+    if (this.timerInterval) clearInterval(this.timerInterval);
     this.subscriptions$.unsubscribe();
     this.chessBoardService.chessBoardState$.next(FENConverter.initalPosition);
   }
@@ -212,5 +226,65 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
     else if (moveType.has(MoveType.Check)) moveSound.src = "assets/sound/check.mp3";
 
     moveSound.play();
+  }
+
+  private startTimer(): void {
+    if (this.timerInterval) clearInterval(this.timerInterval);
+    if (this.whiteTime === 0 && this.blackTime === 0) return;
+
+    this.timerInterval = setInterval(() => {
+      if (this.gameOverMessage) {
+        clearInterval(this.timerInterval);
+        return;
+      }
+      
+      if (this.playerColor === Color.White) {
+        this.whiteTime = Math.max(0, this.whiteTime - 100);
+        if (this.whiteTime === 0) clearInterval(this.timerInterval);
+      } else {
+        this.blackTime = Math.max(0, this.blackTime - 100);
+        if (this.blackTime === 0) clearInterval(this.timerInterval);
+      }
+    }, 100);
+  }
+
+  public formatTime(ms: number): string {
+    if (ms <= 0) return "00:00.0";
+    
+    const totalDays = Math.floor(ms / 86400000);
+    
+    if (totalDays > 30) {
+      const months = Math.floor(totalDays / 30);
+      const days = totalDays % 30;
+      return `${months} month${months !== 1 ? 's' : ''} ${days} day${days !== 1 ? 's' : ''}`;
+    }
+    
+    if (totalDays >= 1) {
+      return `${totalDays} days left`;
+    }
+    
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+    
+    if (hours === 0 && m === 0 && s < 60) {
+      const tenths = Math.floor((ms % 1000) / 100);
+      return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}.${tenths}`;
+    }
+
+    if (hours > 0) {
+       return `${hours}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+    
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
+  public isTimerActive(color: Color): boolean {
+    return this.playerColor === color && this.gameOverMessage === undefined;
+  }
+
+  public isLowTime(timeMs: number): boolean {
+    return timeMs < 60000 && timeMs > 0; // Red if less than 60s
   }
 }
