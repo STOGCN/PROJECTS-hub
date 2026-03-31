@@ -5,11 +5,12 @@
     justify-content: center;
     padding: 2rem 1rem;
     position: relative;
-    background: url('../../../assets/pieces/ChatGPT Image Mar 5, 2026, 01_40_44 PM.png') no-repeat center center fixed;
+    background: url('../../../assets/pieces/ChatGPT Image Feb 19, 2026, 02_08_01 PM.png') no-repeat center center fixed;
     background-size: cover;
     color: white;
     font-family: 'Inter', sans-serif;
-    overflow-y: auto;
+    overflow: hidden;
+    height: 100vh;
 }
 
 .overlay {
@@ -35,7 +36,8 @@
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .registration-header {
