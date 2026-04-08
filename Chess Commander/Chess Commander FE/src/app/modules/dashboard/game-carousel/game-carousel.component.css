@@ -228,6 +228,39 @@
     }
 }
 
+.active-title-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 2rem;
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.title-accent-line {
+    flex: 1;
+    height: 1px;
+}
+
+.title-accent-line.left {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+}
+
+.title-accent-line.right {
+    background: linear-gradient(-90deg, transparent, rgba(255,255,255,0.3));
+}
+
+.active-mission-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: #ffffff;
+    margin: 0;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
 .chessboard-container {
     flex: 1;
     display: flex;
