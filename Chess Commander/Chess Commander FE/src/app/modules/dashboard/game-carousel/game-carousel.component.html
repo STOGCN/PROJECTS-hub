@@ -26,7 +26,13 @@
         <div class="chess-board">
           <!-- 8x8 Grid -->
           <div class="grid-layer">
-            <div *ngFor="let s of squares" class="square"></div>
+            <div *ngFor="let s of squares" class="square" [ngClass]="s"></div>
+          </div>
+          <!-- Pieces Layer -->
+          <div class="pieces-layer">
+            <div *ngFor="let piece of getBoard(mission.fen)" class="piece">
+              <img *ngIf="piece.src" [src]="piece.src" class="piece-image" draggable="false">
+            </div>
           </div>
         </div>
       </div>

@@ -14,16 +14,16 @@ import { FENConverter } from 'src/app/chess-logic/FENConverter';
 export class ChessBoardComponent implements OnInit, OnDestroy {
   public pieceImagePaths = pieceImagePaths;
 
-  protected chessBoard = new ChessBoard();
-  public chessBoardView: (FENChar | null)[][] = this.chessBoard.chessBoardView;
+  protected chessBoard: ChessBoard;
+  public chessBoardView: (FENChar | null)[][];
   public get playerColor(): Color { return this.chessBoard.playerColor; };
   public get safeSquares(): SafeSquares { return this.chessBoard.safeSquares; };
   public get gameOverMessage(): string | undefined { return this.chessBoard.gameOverMessage; };
 
   private selectedSquare: SelectedSquare = { piece: null };
   private pieceSafeSquares: Coords[] = [];
-  private lastMove: LastMove | undefined = this.chessBoard.lastMove;
-  private checkState: CheckState = this.chessBoard.checkState;
+  private lastMove: LastMove | undefined;
+  private checkState: CheckState;
 
   public get moveList(): MoveList { return this.chessBoard.moveList; };
   public get gameHistory(): GameHistory { return this.chessBoard.gameHistory; };
@@ -48,7 +48,13 @@ export class ChessBoardComponent implements OnInit, OnDestroy {
   private timerInterval: any;
   public Color = Color; // Expose Color enum to template
 
-  constructor(protected chessBoardService: ChessBoardService) { }
+  constructor(protected chessBoardService: ChessBoardService) {
+    const initialState = this.chessBoardService.chessBoardState$.value;
+    this.chessBoard = new ChessBoard(initialState);
+    this.chessBoardView = this.chessBoard.chessBoardView;
+    this.lastMove = this.chessBoard.lastMove;
+    this.checkState = this.chessBoard.checkState;
+  }
 
   public ngOnInit(): void {
     const keyEventSubscription$: Subscription = fromEvent<KeyboardEvent>(document, "keyup")

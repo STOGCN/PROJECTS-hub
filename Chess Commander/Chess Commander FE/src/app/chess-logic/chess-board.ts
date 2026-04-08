@@ -31,29 +31,38 @@ export class ChessBoard {
     private _moveList: MoveList = []; //รายการการเดิน
     private _gameHistory: GameHistory; //ประวัติเกม
 
-    constructor() {
-        this.chessBoard = [
-            [
-                new Rook(Color.White), new Knight(Color.White), new Bishop(Color.White), new Queen(Color.White),
-                new King(Color.White), new Bishop(Color.White), new Knight(Color.White), new Rook(Color.White)
-            ],
-            [
-                new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White),
-                new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White)
-            ],
-            [null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null],
-            [null, null, null, null, null, null, null, null],
-            [
-                new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black),
-                new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black)
-            ],
-            [
-                new Rook(Color.Black), new Knight(Color.Black), new Bishop(Color.Black), new Queen(Color.Black),
-                new King(Color.Black), new Bishop(Color.Black), new Knight(Color.Black), new Rook(Color.Black)
-            ],
-        ];
+    constructor(fen?: string) {
+        if (fen && fen !== FENConverter.initalPosition) {
+            this.chessBoard = this.FENConverter.convertFENToBoard(fen);
+            this._boardAsFEN = fen;
+            const fenParts = fen.split(" ");
+            if (fenParts.length > 1) {
+                this._playerColor = fenParts[1] === "b" ? Color.Black : Color.White;
+            }
+        } else {
+            this.chessBoard = [
+                [
+                    new Rook(Color.White), new Knight(Color.White), new Bishop(Color.White), new Queen(Color.White),
+                    new King(Color.White), new Bishop(Color.White), new Knight(Color.White), new Rook(Color.White)
+                ],
+                [
+                    new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White),
+                    new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White), new Pawn(Color.White)
+                ],
+                [null, null, null, null, null, null, null, null],
+                [null, null, null, null, null, null, null, null],
+                [null, null, null, null, null, null, null, null],
+                [null, null, null, null, null, null, null, null],
+                [
+                    new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black),
+                    new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black), new Pawn(Color.Black)
+                ],
+                [
+                    new Rook(Color.Black), new Knight(Color.Black), new Bishop(Color.Black), new Queen(Color.Black),
+                    new King(Color.Black), new Bishop(Color.Black), new Knight(Color.Black), new Rook(Color.Black)
+                ],
+            ];
+        }
         this._safeSquares = this.findSafeSqures(); //
         this._gameHistory = [{ board: this.chessBoardView, lastMove: this._lastMove, checkState: this._checkState }];
     }

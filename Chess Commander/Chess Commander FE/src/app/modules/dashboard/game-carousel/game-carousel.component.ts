@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Mission, MissionService } from '../mission.service';
+import { FENChar, pieceImagePaths } from 'src/app/chess-logic/models';
 
 @Component({
   selector: 'app-game-carousel',
@@ -12,10 +13,45 @@ export class GameCarouselComponent implements OnInit, OnDestroy {
   @Output() activeCardStatus = new EventEmitter<{ isLastCard: boolean }>();
   @Output() activeMissionChange = new EventEmitter<Mission>();
 
-  squares = Array(64).fill(0);
+  squares = Array.from({ length: 64 }, (_, i) => {
+    const row = Math.floor(i / 8);
+    const col = i % 8;
+    return (row + col) % 2 === 0 ? 'light' : 'dark';
+  });
   activeIndex = 0;
   missions: Mission[] = [];
   private sub: Subscription = new Subscription();
+
+  // Mock boards
+  parseFen(fen: string): {char: string, src: string}[] {
+    const pieces: {char: string, src: string}[] = [];
+    const rows = fen.split(' ')[0].split('/');
+
+    for (const row of rows) {
+      for (const char of row) {
+        if (!isNaN(parseInt(char))) {
+          const emptyCount = parseInt(char);
+          for (let i = 0; i < emptyCount; i++) {
+            pieces.push({ char: '', src: '' });
+          }
+        } else {
+          pieces.push({
+            char: char,
+            src: pieceImagePaths[char as FENChar] || ''
+          });
+        }
+      }
+    }
+    return pieces;
+  }
+
+  getBoard(fen?: string): {char: string, src: string}[] {
+    if (fen) {
+      return this.parseFen(fen);
+    }
+    // Default starting
+    return this.parseFen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR');
+  }
 
   // Swipe State
   private startX = 0;

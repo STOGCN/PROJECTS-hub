@@ -65,6 +65,13 @@ export class DashboardComponent {
         }
         
         this.chessBoardService.gameTimeMs$.next(ms);
+        
+        if (this.selectedMission.fen) {
+            this.chessBoardService.chessBoardState$.next(this.selectedMission.fen);
+        } else {
+            // Provide default if empty
+            this.chessBoardService.chessBoardState$.next('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+        }
 
         let route = '/against-computer';
         if (this.selectedMission.playMode === 'MANUAL') {
