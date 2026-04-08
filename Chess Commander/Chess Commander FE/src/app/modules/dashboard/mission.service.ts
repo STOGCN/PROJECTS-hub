@@ -11,6 +11,7 @@ export interface Mission {
   imageUrl: string;
   isCritical: boolean;
   isLocked: boolean;
+  importance?: 'CASUAL' | 'SERIOUS' | 'CRITICAL';
   totalMs?: number;
   playMode?: string;
   fen?: string;
@@ -30,6 +31,7 @@ export class MissionService {
       gameNumber: '8411',
       imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBexjYCnlKD6w4xcoqyJKoJZuGCw7f0OrLQDi5LugwTX9zDfhYSy2AE9J6KHfgEgpDMwaKOxpN3EYPOoZFMtNrBZ1nv-RUC4pf_GoVijUevG9J8VTdSEjD5qRScoOB_hjbid7s0gmogvWyDLlBbyog0DYY5_jMIGgO58k45hlyOIKQvhN8r1OtBk0Ajo1EO1VAzXIKqlodtNHzuUWUqKsJU1j8xDRPNCiFzTq-_rB_SMgw5fNK8anVlDtYva2te8sGT5JTv5c8gqsY',
       isCritical: false,
+      importance: 'CASUAL',
       isLocked: true,
       fen: 'r1bqkb1r/pppp1ppp/2n2n2/4p3/4P3/2N2N2/PPPP1PPP/R1BQKB1R'
     },

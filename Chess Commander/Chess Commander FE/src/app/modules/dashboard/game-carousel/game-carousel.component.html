@@ -16,9 +16,9 @@
             <span class="main">{{ mission.gameClock.split('.')[0] }}</span><span class="ms">.{{ mission.gameClock.split('.')[1] }}</span>
           </div>
         </div>
-        <div class="critical-badge" *ngIf="mission.isCritical">
+        <div class="importance-badge" [ngClass]="(mission.importance || (mission.isCritical ? 'CRITICAL' : 'SERIOUS')) | lowercase">
           <span class="pulse-dot"></span>
-          <span>CRITICAL</span>
+          <span>{{ mission.importance || (mission.isCritical ? 'CRITICAL' : 'SERIOUS') }}</span>
         </div>
       </div>
 

@@ -164,6 +164,7 @@ export class NewGameComponent {
       gameNumber: newMissionId,
       imageUrl: this.coverImage || 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?q=80&w=2071&auto=format&fit=crop', // default fallback image if no cover
       isCritical: this.importance === 'CRITICAL',
+      importance: this.importance,
       isLocked: false,
       totalMs: this.totalMs,
       playMode: this.playMode
